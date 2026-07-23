@@ -1,0 +1,25 @@
+# JANGAN muat naik ke repo awam (GitHub Pages):
+
+# Versi PHP API - config.php mengandungi ADMIN_KEY rahsia
+api/
+
+# Fail kerja Cloudflare (deploy dibuat dari folder ini secara berasingan)
+cloudflare/node_modules/
+cloudflare/.wrangler/
+cloudflare/.dev.vars
+
+# Nota asal yang diimbas
+*.pdf
+
+# Fail tempatan alat/persekitaran (bukan sebahagian laman)
+.claude/
+
+
+
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example

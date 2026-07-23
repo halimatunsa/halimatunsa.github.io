@@ -8,9 +8,9 @@ main = "src/worker.js"
 compatibility_date = "2026-07-01"
 
 [[d1_databases]]
-binding = "DB"
+binding = "halimatun_db"
 database_name = "halimatun-db"
-database_id = "GANTI-DENGAN-DATABASE-ID-ANDA"
+database_id = "d773c6d6-fb39-45fc-97f1-af15eb268c31"
 
 # ============================================================
 # GITHUB (pilihan) - membolehkan butang "Simpan" dalam admin.html
@@ -23,7 +23,7 @@ database_id = "GANTI-DENGAN-DATABASE-ID-ANDA"
 # balik kepada Muat Turun data.js seperti biasa.
 # ============================================================
 [vars]
-GITHUB_OWNER = "GANTI-DENGAN-USERNAME-GITHUB"
-GITHUB_REPO = "GANTI-DENGAN-NAMA-REPO"
+GITHUB_OWNER = "halimatunsa"
+GITHUB_REPO = "halimatun.github.io"
 GITHUB_BRANCH = "main"
 GITHUB_PATH = "data.js"

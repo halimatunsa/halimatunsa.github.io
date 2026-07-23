@@ -78,7 +78,7 @@ async function semak(request, env) {
   const q = String((await badanJson(request)).q || "").trim();
   if (!q) return json({ ok: false, mesej: "Tiada input" }, 400);
 
-  let row = await env.DB
+  let row = await env.halimatun_db
     .prepare("SELECT * FROM murid WHERE nama_norm = ? LIMIT 1")
     .bind(normNama(q))
     .first();
@@ -86,7 +86,7 @@ async function semak(request, env) {
   if (!row) {
     const icN = normIc(q);
     if (icN.length >= 6) {
-      row = await env.DB
+      row = await env.halimatun_db
         .prepare("SELECT * FROM murid WHERE ic_norm = ? LIMIT 1")
         .bind(icN)
         .first();
@@ -111,7 +111,7 @@ async function cadang(request, env) {
   }
   const qEsc = q.replace(/[\\%_]/g, (c) => "\\" + c);
   /* padanan awalan nama diutamakan sebelum padanan tengah nama */
-  const { results } = await env.DB
+  const { results } = await env.halimatun_db
     .prepare(
       "SELECT nama FROM murid WHERE nama_norm LIKE ? ESCAPE '\\' " +
       "ORDER BY CASE WHEN nama_norm LIKE ? ESCAPE '\\' THEN 0 ELSE 1 END, nama_norm LIMIT 5"
@@ -129,7 +129,7 @@ async function rekodAdmin(request, env) {
   }
 
   if (request.method === "GET") {
-    const { results } = await env.DB
+    const { results } = await env.halimatun_db
       .prepare("SELECT * FROM murid ORDER BY nama_norm")
       .all();
     return json({ ok: true, rekod: results.map((r) => rowKeRekod(r, true)) });
@@ -139,7 +139,7 @@ async function rekodAdmin(request, env) {
     const b = await badanJson(request);
 
     if (b.action === "ping") {
-      const row = await env.DB.prepare("SELECT COUNT(*) AS jumlah FROM murid").first();
+      const row = await env.halimatun_db.prepare("SELECT COUNT(*) AS jumlah FROM murid").first();
       return json({ ok: true, mesej: "Sambungan berjaya", jumlah: row.jumlah });
     }
 
@@ -147,14 +147,14 @@ async function rekodAdmin(request, env) {
       if (!Array.isArray(b.rekod)) {
         return json({ ok: false, mesej: "Senarai rekod tidak sah" }, 400);
       }
-      const penyata = [env.DB.prepare("DELETE FROM murid")];
+      const penyata = [env.halimatun_db.prepare("DELETE FROM murid")];
       let masuk = 0;
       for (const r of b.rekod) {
         if (!r || typeof r !== "object") continue;
         const nama = String(r.nama || "").trim();
         if (!nama) continue;
         penyata.push(
-          env.DB.prepare(
+          env.halimatun_db.prepare(
             "INSERT INTO murid (nama, nama_norm, ic, ic_norm, tingkatan, kelas, contoh, exam_json, pbd_json) VALUES (?,?,?,?,?,?,?,?,?)"
           ).bind(
             nama,
@@ -170,7 +170,7 @@ async function rekodAdmin(request, env) {
         );
         masuk++;
       }
-      await env.DB.batch(penyata);
+      await env.halimatun_db.batch(penyata);
       return json({ ok: true, mesej: "Rekod diterbitkan", jumlah: masuk });
     }
 

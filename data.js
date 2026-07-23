@@ -621,7 +621,7 @@ window.SITE_DATA = {
   ],
   "tetapan": {
     "kaunterMula": 128,
-    "apiUrl": "http://localhost:8793",
+    "apiUrl": "https://halimatun-api.halimatun.workers.dev",
     "cadanganNama": true
   }
 };
