@@ -1,6 +1,6 @@
 /* ============================================================
    DATA KANDUNGAN LAMAN
-   Disimpan melalui admin.html (Cloudflare Worker -> GitHub) pada 2026-07-23T16:29:26.798Z.
+   Disimpan melalui admin.html (Cloudflare Worker -> GitHub) pada 2026-07-23T17:15:50.569Z.
    Jangan edit fail ini secara manual; gunakan admin.html.
    ============================================================ */
 window.SITE_DATA = {
@@ -470,7 +470,7 @@ window.SITE_DATA = {
   ],
   "kenangan": [
     {
-      "img": "https://picsum.photos/seed/kelas-sains-makmal/900/560",
+      "img": "https://drive.google.com/file/d/1vwn1y-wlLENDb7OXW8V_TOHUpcNOQI9F/view?usp=sharing",
       "kapsyen": "Aktiviti amali di makmal Sains"
     },
     {
