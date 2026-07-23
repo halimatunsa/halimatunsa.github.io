@@ -1,0 +1,5 @@
+node_modules/
+.wrangler/
+.dev.vars
+# data sebenar murid - JANGAN commit ke repo awam
+rekod_murid.json

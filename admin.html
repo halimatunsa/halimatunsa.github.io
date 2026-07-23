@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel Kandungan | Cikgu Halimatun</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+<script src="data.js"></script>
+<style>
+:root{
+  --bg:#F5F7FA;--surface:#FFFFFF;--ink:#16222F;--muted:#57697C;
+  --blue-950:#0A1E33;--blue-900:#13304E;--blue-700:#22568A;--blue-100:#E2EAF3;
+  --amber:#C4861F;--amber-soft:#F4E7CF;--line:rgba(22,34,47,.10);
+  --radius-card:18px;--radius-input:10px;
+  --ease:cubic-bezier(.32,.72,0,1);
+  --font-display:"Bricolage Grotesque",sans-serif;--font-body:"Manrope",sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--font-body);background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+button{font-family:inherit;cursor:pointer}
+a{color:inherit;text-decoration:none}
+h1,h2,h3{font-family:var(--font-display);color:var(--blue-950);letter-spacing:-.01em}
+
+/* ---------- topbar ---------- */
+.topbar{
+  position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:1rem;
+  padding:.8rem clamp(1rem,3vw,1.8rem);background:rgba(255,255,255,.88);
+  backdrop-filter:blur(14px);border-bottom:1px solid var(--line);flex-wrap:wrap;
+}
+.topbar .brand{display:flex;align-items:center;gap:.65rem;font-family:var(--font-display);font-weight:700;font-size:1rem}
+.topbar .brand .mark{width:32px;height:32px;border-radius:999px;background:var(--blue-900);color:#F3EBD8;display:grid;place-items:center;font-size:.68rem;font-weight:700}
+.status{font-size:.78rem;color:var(--muted);flex:1;min-width:140px}
+.status b{color:var(--blue-700)}
+.tb-actions{display:flex;gap:.5rem;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:.5rem;border-radius:999px;
+  font-weight:700;font-size:.83rem;padding:.55rem 1.1rem;border:1.5px solid transparent;
+  transition:transform .4s var(--ease),background .4s var(--ease),border-color .4s var(--ease);
+}
+.btn:active{transform:scale(.97)}
+.btn i{font-size:1rem}
+.btn-primary{background:var(--blue-900);color:#F6F3E9}
+.btn-primary:hover{background:var(--blue-700)}
+.btn-amber{background:var(--amber);color:var(--blue-950)}
+.btn-amber:hover{background:#D89A33}
+.btn-ghost{background:transparent;border-color:rgba(22,34,47,.18);color:var(--blue-950)}
+.btn-ghost:hover{border-color:var(--blue-700)}
+.btn-danger{background:transparent;border-color:rgba(160,60,40,.35);color:#8A3324}
+.btn-danger:hover{background:rgba(160,60,40,.06)}
+
+/* ---------- layout ---------- */
+.shell{display:grid;grid-template-columns:230px 1fr;gap:1.4rem;max-width:1240px;margin:1.4rem auto 4rem;padding-inline:clamp(1rem,3vw,1.8rem)}
+.side{position:sticky;top:74px;align-self:start;display:grid;gap:.3rem}
+.side button{
+  text-align:left;border:none;background:transparent;border-radius:12px;
+  padding:.65rem .9rem;font-size:.88rem;font-weight:600;color:var(--muted);
+  display:flex;align-items:center;gap:.6rem;
+  transition:background .3s var(--ease),color .3s var(--ease);
+}
+.side button i{font-size:1.05rem}
+.side button:hover{color:var(--blue-950);background:rgba(34,86,138,.06)}
+.side button.active{background:var(--blue-900);color:#F6F3E9}
+.panel{min-width:0}
+.panel h2{font-size:1.5rem;margin-bottom:.3rem}
+.panel .desc{color:var(--muted);font-size:.9rem;margin-bottom:1.5rem;max-width:64ch}
+
+/* ---------- cards & fields ---------- */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);padding:1.3rem 1.4rem;margin-bottom:1rem}
+.card-head{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:.9rem}
+.card-head h3{font-size:1rem}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.9rem}
+.f{display:grid;gap:.3rem;margin-bottom:.9rem;min-width:0}
+.f:last-child{margin-bottom:0}
+.f-label{font-size:.76rem;font-weight:700;color:var(--blue-700);letter-spacing:.02em}
+.f-help{font-size:.72rem;color:var(--muted)}
+input[type=text],input[type=url],input[type=date],input[type=number],textarea,select{
+  width:100%;padding:.6rem .8rem;border-radius:var(--radius-input);
+  border:1px solid rgba(22,34,47,.16);background:#FBFCFE;color:var(--ink);
+  font-family:inherit;font-size:.88rem;transition:border-color .3s;
+}
+textarea{resize:vertical;min-height:74px}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--amber);outline-offset:1px;border-color:transparent}
+.row-actions{display:flex;gap:.4rem;flex:0 0 auto}
+.icon-btn{
+  width:32px;height:32px;border-radius:999px;border:1px solid rgba(22,34,47,.14);
+  background:var(--surface);display:grid;place-items:center;color:var(--muted);font-size:.95rem;
+  transition:color .3s,border-color .3s,background .3s;
+}
+.icon-btn:hover{color:#8A3324;border-color:rgba(160,60,40,.4);background:rgba(160,60,40,.05)}
+.add-btn{
+  width:100%;border:1.5px dashed rgba(22,34,47,.22);background:transparent;border-radius:var(--radius-card);
+  padding:.8rem;font-weight:700;font-size:.85rem;color:var(--blue-700);
+  display:flex;align-items:center;justify-content:center;gap:.5rem;margin-bottom:1rem;
+  transition:border-color .3s,background .3s;
+}
+.add-btn:hover{border-color:var(--blue-700);background:rgba(34,86,138,.04)}
+.subtabs{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:1.1rem;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:.32rem;width:max-content;max-width:100%}
+.subtabs button{border:none;background:transparent;border-radius:999px;padding:.45rem .95rem;font-size:.82rem;font-weight:700;color:var(--muted)}
+.subtabs button.active{background:var(--blue-900);color:#F6F3E9}
+.warn{
+  display:flex;gap:.7rem;align-items:flex-start;background:#FBEFE9;border:1px solid rgba(160,60,40,.25);
+  border-radius:var(--radius-card);padding:1rem 1.2rem;margin-bottom:1.2rem;font-size:.84rem;color:#6E2A1A;
+}
+.warn i{color:#A03C28;font-size:1.15rem;margin-top:.1rem}
+.info{
+  display:flex;gap:.7rem;align-items:flex-start;background:var(--blue-100);border:1px solid rgba(34,86,138,.15);
+  border-radius:var(--radius-card);padding:1rem 1.2rem;margin-bottom:1.2rem;font-size:.84rem;color:var(--blue-900);
+}
+.info i{color:var(--blue-700);font-size:1.15rem;margin-top:.1rem}
+.thumb{width:78px;height:56px;border-radius:10px;object-fit:cover;border:1px solid var(--line);background:var(--blue-100);flex:0 0 auto}
+.gal-row{display:flex;gap:.9rem;align-items:flex-start}
+.gal-row .fields{flex:1;min-width:0}
+.check{display:flex;align-items:center;gap:.5rem;font-size:.84rem;font-weight:600;color:var(--muted)}
+.check input{width:16px;height:16px;accent-color:var(--blue-700)}
+.mini-table{display:grid;gap:.5rem}
+.mini-row{display:grid;grid-template-columns:1fr 90px 80px 32px;gap:.5rem;align-items:center}
+.mini-row.pbd{grid-template-columns:1fr 90px 32px}
+.mini-head-row{font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.langkah{display:grid;gap:.7rem;counter-reset:step}
+.langkah div{display:flex;gap:.7rem;align-items:flex-start;font-size:.86rem}
+.langkah div::before{
+  counter-increment:step;content:counter(step);
+  width:24px;height:24px;border-radius:999px;background:var(--blue-100);color:var(--blue-700);
+  font-weight:800;font-size:.75rem;display:grid;place-items:center;flex:0 0 auto;margin-top:.1rem;
+}
+.fatal{max-width:560px;margin:4rem auto;text-align:center;padding:2rem}
+.fatal i{font-size:2.6rem;color:#A03C28}
+.fatal h2{margin:.8rem 0 .5rem}
+.fatal p{color:var(--muted);font-size:.9rem}
+
+@media (max-width:860px){
+  .shell{grid-template-columns:1fr}
+  .side{position:static;display:flex;overflow-x:auto;gap:.3rem;padding-bottom:.3rem}
+  .side button{white-space:nowrap}
+  .grid2,.grid3{grid-template-columns:1fr}
+  .mini-row{grid-template-columns:1fr 70px 60px 32px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand"><span class="mark">HS</span>Panel Kandungan</div>
+  <div class="status" id="statusText">Sedia.</div>
+  <div class="tb-actions">
+    <a class="btn btn-ghost" href="index.html" target="_blank" rel="noopener"><i class="ph ph-eye"></i>Lihat Laman</a>
+    <button class="btn btn-ghost" id="btnImport"><i class="ph ph-upload-simple"></i>Import</button>
+    <input type="file" id="fileImport" accept=".js,.json" hidden>
+    <button class="btn btn-ghost" id="btnDownload"><i class="ph ph-download-simple"></i>Muat Turun data.js</button>
+    <button class="btn btn-amber" id="btnSimpan"><i class="ph-fill ph-floppy-disk"></i>Simpan</button>
+  </div>
+</div>
+
+<div class="shell" id="shell">
+  <nav class="side" id="sideNav"></nav>
+  <main class="panel" id="panel"></main>
+</div>
+
+<script>
+/* ============================================================
+   PANEL KANDUNGAN (CMS)
+   Aliran kerja:
+   1. Panel ini memuatkan kandungan daripada data.js.
+   2. Setiap perubahan disimpan secara automatik sebagai DRAF
+      dalam pelayar ini (localStorage).
+   3. Klik "Muat Turun data.js" untuk mendapatkan fail baharu,
+      kemudian GANTIKAN fail data.js di folder laman / hosting.
+   ============================================================ */
+const DRAF_KEY = "uh_cms_draft";
+const shell = document.getElementById("shell");
+const panel = document.getElementById("panel");
+const sideNav = document.getElementById("sideNav");
+const statusText = document.getElementById("statusText");
+
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => (
+  { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]
+));
+
+/* ---------- muat data ---------- */
+let state = null;
+let sumberDraf = false;
+(function initState() {
+  const draf = localStorage.getItem(DRAF_KEY);
+  if (draf) {
+    try { state = JSON.parse(draf); sumberDraf = true; } catch (e) { state = null; }
+  }
+  if (!state && window.SITE_DATA) state = JSON.parse(JSON.stringify(window.SITE_DATA));
+  if (state) {
+    if (!state.tetapan) state.tetapan = {};
+    if (state.tetapan.apiUrl === undefined) state.tetapan.apiUrl = "";
+    if (state.tetapan.cadanganNama === undefined) state.tetapan.cadanganNama = true;
+  }
+  if (!state) {
+    shell.innerHTML = `<div class="fatal" style="grid-column:1/-1">
+      <i class="ph-fill ph-warning-octagon"></i>
+      <h2>Fail data.js tidak dijumpai</h2>
+      <p>Pastikan fail <b>admin.html</b> berada dalam folder yang sama dengan <b>data.js</b>, kemudian muat semula halaman ini.</p>
+    </div>`;
+    throw new Error("data.js missing");
+  }
+})();
+
+function setStatus(msg, kekal) {
+  statusText.innerHTML = msg;
+  if (!kekal) {
+    clearTimeout(setStatus._t);
+    setStatus._t = setTimeout(() => {
+      statusText.innerHTML = sumberDraf
+        ? `Draf aktif. <b>Muat turun data.js</b> untuk terbitkan.`
+        : `Menggunakan kandungan data.js semasa.`;
+    }, 3500);
+  }
+}
+setStatus(sumberDraf
+  ? `Draf yang belum diterbitkan telah dimuatkan. <b>Muat turun data.js</b> untuk terbitkan.`
+  : `Menggunakan kandungan data.js semasa.`, true);
+
+let simpanTimer;
+function simpanDraf() {
+  clearTimeout(simpanTimer);
+  simpanTimer = setTimeout(() => {
+    localStorage.setItem(DRAF_KEY, JSON.stringify(state));
+    sumberDraf = true;
+    const j = new Date();
+    setStatus(`Draf disimpan ${String(j.getHours()).padStart(2, "0")}:${String(j.getMinutes()).padStart(2, "0")}. <b>Muat turun data.js</b> untuk terbitkan.`, true);
+  }, 400);
+}
+
+/* ---------- akses ikut laluan ("pengumuman.0.tajuk") ---------- */
+function dapatkan(obj, path) {
+  return path.split(".").reduce((o, k) => (o == null ? o : o[k]), obj);
+}
+function tetapkan(obj, path, nilai) {
+  const kunci = path.split(".");
+  const akhir = kunci.pop();
+  const sasaran = kunci.reduce((o, k) => o[k], obj);
+  sasaran[akhir] = nilai;
+}
+
+/* ---------- pembina medan ---------- */
+function fTeks(label, path, opsyen = {}) {
+  const nilai = dapatkan(state, path);
+  const jenis = opsyen.jenis || "text";
+  return `<div class="f">
+    <label class="f-label">${esc(label)}</label>
+    <input type="${jenis}" data-path="${esc(path)}" ${jenis === "number" ? 'data-num="1"' : ""} value="${esc(nilai)}" ${opsyen.placeholder ? `placeholder="${esc(opsyen.placeholder)}"` : ""}>
+    ${opsyen.help ? `<span class="f-help">${esc(opsyen.help)}</span>` : ""}
+  </div>`;
+}
+function fArea(label, path, opsyen = {}) {
+  return `<div class="f">
+    <label class="f-label">${esc(label)}</label>
+    <textarea data-path="${esc(path)}" ${opsyen.rows ? `style="min-height:${opsyen.rows * 24}px"` : ""}>${esc(dapatkan(state, path))}</textarea>
+    ${opsyen.help ? `<span class="f-help">${esc(opsyen.help)}</span>` : ""}
+  </div>`;
+}
+function btnBuang(act, arg) {
+  return `<button class="icon-btn" data-act="${act}" data-arg="${arg}" title="Buang"><i class="ph ph-trash"></i></button>`;
+}
+function btnTambah(act, label) {
+  return `<button class="add-btn" data-act="${act}"><i class="ph ph-plus-circle"></i>${esc(label)}</button>`;
+}
+
+/* ---------- tab-tab panel ---------- */
+let tabAktif = "profil";
+let bahanAktif = 0;
+
+const TAB = [
+  { id: "profil", label: "Profil", ikon: "ph-identification-badge" },
+  { id: "teks", label: "Teks Laman", ikon: "ph-text-aa" },
+  { id: "pengumuman", label: "Pengumuman", ikon: "ph-megaphone" },
+  { id: "bahan", label: "Bahan Pembelajaran", ikon: "ph-books" },
+  { id: "kemenjadian", label: "Kemenjadian", ikon: "ph-chart-line-up" },
+  { id: "kajianamalan", label: "Kajian & Amalan", ikon: "ph-lightbulb" },
+  { id: "kenangan", label: "Kenangan", ikon: "ph-camera" },
+  { id: "rekod", label: "Rekod Murid", ikon: "ph-lock-key" },
+  { id: "tetapan", label: "Tetapan & Bantuan", ikon: "ph-gear" },
+];
+
+function lukisSideNav() {
+  sideNav.innerHTML = TAB.map(t =>
+    `<button class="${t.id === tabAktif ? "active" : ""}" data-tab="${t.id}"><i class="ph-fill ${t.ikon}"></i>${t.label}</button>`
+  ).join("");
+}
+sideNav.addEventListener("click", e => {
+  const b = e.target.closest("button[data-tab]");
+  if (!b) return;
+  tabAktif = b.dataset.tab;
+  lukisSideNav();
+  lukisPanel();
+  window.scrollTo({ top: 0 });
+});
+
+/* ---------- kandungan setiap tab ---------- */
+const LUKIS = {
+
+  profil() {
+    return `
+      <h2>Profil</h2>
+      <p class="desc">Maklumat asas yang dipaparkan pada hero, kad profil dan footer laman.</p>
+      <div class="card">
+        <div class="card-head"><h3>Identiti</h3></div>
+        <div class="grid3">
+          ${fTeks("Gelaran", "profil.gelaran", { help: "Cth: Cikgu / Ustazah / Puan" })}
+          ${fTeks("Nama Utama", "profil.namaUtama", { help: "Bahagian nama yang besar pada hero" })}
+          ${fTeks("Nama Italik", "profil.namaItalic", { help: "Bahagian nama yang condong pada hero" })}
+        </div>
+        <div class="grid2">
+          ${fTeks("Nama Penuh", "profil.namaPenuh")}
+          ${fTeks("Inisial", "profil.inisial", { help: "Dipaparkan pada kad foto jika tiada gambar" })}
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>Foto Cikgu (Hero)</h3></div>
+        <div class="gal-row">
+          ${state.profil.fotoUrl
+            ? `<img class="thumb" style="width:96px;height:120px" src="${esc(state.profil.fotoUrl)}" alt="Foto semasa">`
+            : `<div class="thumb" style="width:96px;height:120px;display:grid;place-items:center;color:var(--muted);font-size:1.5rem"><i class="ph ph-user"></i></div>`}
+          <div class="fields">
+            <div class="f">
+              <label class="f-label">Muat Naik Foto</label>
+              <input type="file" id="fotoUpload" accept="image/*">
+              <span class="f-help">Foto akan dikecilkan secara automatik dan disimpan terus dalam kandungan laman (tiada hosting gambar diperlukan). Potret menegak paling sesuai.</span>
+            </div>
+            ${fTeks("Atau tampal URL foto", "profil.fotoUrl", { jenis: "url", placeholder: "https://...", help: "Biarkan kosong untuk paparan inisial pada hero" })}
+            ${state.profil.fotoUrl ? `<button class="btn btn-danger" data-act="buangFoto" type="button"><i class="ph ph-trash"></i>Buang foto</button>` : ""}
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>Perkhidmatan</h3></div>
+        <div class="grid2">
+          ${fTeks("Gred Jawatan", "profil.gred")}
+          ${fTeks("Jawatan", "profil.jawatan")}
+          ${fTeks("Mata Pelajaran", "profil.mataPelajaran")}
+          ${fTeks("Sekolah", "profil.sekolah")}
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>Biodata & Falsafah</h3></div>
+        ${fArea("Perenggan Bio 1", "profil.bio1")}
+        ${fArea("Perenggan Bio 2", "profil.bio2")}
+        ${fArea("Kata-kata / Falsafah", "profil.quote", { rows: 2 })}
+        ${fTeks("Label Falsafah", "profil.quoteLabel")}
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>Fakta Hero (3 lajur di bawah butang)</h3></div>
+        ${state.heroFacts.map((f, i) => `
+          <div class="grid2" style="grid-template-columns:1fr 1fr auto;align-items:end">
+            ${fTeks("Tajuk", `heroFacts.${i}.tajuk`)}
+            ${fTeks("Huraian", `heroFacts.${i}.huraian`)}
+            <div class="f">${btnBuang("buangHeroFact", i)}</div>
+          </div>`).join("")}
+        ${btnTambah("tambahHeroFact", "Tambah fakta")}
+      </div>`;
+  },
+
+  teks() {
+    return `
+      <h2>Teks Laman</h2>
+      <p class="desc">Ayat pengenalan bagi setiap bahagian laman. Kemas kini ayat "contoh" di sini apabila kandungan sebenar sudah dimasukkan.</p>
+      <div class="card">
+        ${fArea("Ayat bawah nama (hero)", "teks.heroSub", { rows: 2 })}
+        ${fArea("Pengenalan Pengumuman", "teks.pengumumanSub", { rows: 2 })}
+        ${fArea("Pengenalan Kemenjadian", "teks.kemenjadianSub", { rows: 2 })}
+        ${fArea("Pengenalan Kenangan", "teks.kenanganSub", { rows: 2 })}
+        ${fArea("Petunjuk pada borang Semakan", "teks.semakHint", { rows: 2, help: "Dipaparkan di bawah kotak nama/IC pada bahagian Semakan" })}
+        ${fArea("Teks ringkas footer", "teks.footerTentang", { rows: 2 })}
+      </div>`;
+  },
+
+  pengumuman() {
+    return `
+      <h2>Pengumuman</h2>
+      <p class="desc">Pengumuman disusun secara automatik mengikut tarikh, yang terkini di atas.</p>
+      ${btnTambah("tambahPengumuman", "Tambah pengumuman baharu")}
+      ${state.pengumuman.map((n, i) => `
+        <div class="card">
+          <div class="card-head"><h3>Pengumuman ${i + 1}</h3>${btnBuang("buangPengumuman", i)}</div>
+          <div class="grid2" style="grid-template-columns:180px 1fr">
+            ${fTeks("Tarikh", `pengumuman.${i}.tarikh`, { jenis: "date" })}
+            ${fTeks("Tag (pilihan)", `pengumuman.${i}.tag`, { placeholder: "Cth: Bahan Baru / Kelas / Keputusan" })}
+          </div>
+          ${fTeks("Tajuk", `pengumuman.${i}.tajuk`)}
+          ${fArea("Butiran", `pengumuman.${i}.teks`, { rows: 2 })}
+        </div>`).join("")}`;
+  },
+
+  bahan() {
+    const f = state.bahan[bahanAktif];
+    return `
+      <h2>Bahan Pembelajaran</h2>
+      <p class="desc">Tampal pautan Google Drive atau YouTube bagi setiap bab. Ruang kosong akan dipaparkan sebagai "akan datang" di laman.</p>
+      <div class="subtabs">
+        ${state.bahan.map((x, i) =>
+          `<button class="${i === bahanAktif ? "active" : ""}" data-act="pilihBahan" data-arg="${i}">${esc(x.label)}</button>`).join("")}
+      </div>
+      <div class="card">
+        ${fTeks("Nama Tingkatan", `bahan.${bahanAktif}.label`)}
+      </div>
+      ${f.bab.map((b, i) => `
+        <div class="card">
+          <div class="card-head"><h3>Bab ${i + 1}</h3>${btnBuang("buangBab", i)}</div>
+          ${fTeks("Tajuk Bab", `bahan.${bahanAktif}.bab.${i}.t`)}
+          <div class="grid3">
+            ${fTeks("Pautan Nota", `bahan.${bahanAktif}.bab.${i}.nota`, { jenis: "url", placeholder: "https://drive.google.com/..." })}
+            ${fTeks("Pautan Latihan", `bahan.${bahanAktif}.bab.${i}.latihan`, { jenis: "url", placeholder: "https://drive.google.com/..." })}
+            ${fTeks("Pautan Video", `bahan.${bahanAktif}.bab.${i}.video`, { jenis: "url", placeholder: "https://youtube.com/..." })}
+          </div>
+        </div>`).join("")}
+      ${btnTambah("tambahBab", "Tambah bab")}`;
+  },
+
+  kemenjadian() {
+    return `
+      <h2>Kemenjadian Murid</h2>
+      <p class="desc">Statistik utama dan senarai pencapaian. Tile pertama dipaparkan lebih besar dengan latar hijau.</p>
+      <div class="card">
+        <div class="card-head"><h3>Statistik</h3></div>
+        ${state.kemenjadian.stats.map((s, i) => `
+          <div class="grid3" style="grid-template-columns:1.2fr .6fr 1.2fr auto;align-items:end">
+            ${fTeks("Label", `kemenjadian.stats.${i}.label`)}
+            ${fTeks("Nilai", `kemenjadian.stats.${i}.nilai`)}
+            ${fTeks("Keterangan kecil", `kemenjadian.stats.${i}.cap`)}
+            <div class="f">${btnBuang("buangStat", i)}</div>
+          </div>`).join("")}
+        ${btnTambah("tambahStat", "Tambah statistik")}
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>Pencapaian</h3></div>
+        ${state.kemenjadian.pencapaian.map((x, i) => `
+          <div class="grid2" style="grid-template-columns:1.3fr 1fr auto;align-items:end">
+            ${fTeks("Pencapaian", `kemenjadian.pencapaian.${i}.teks`)}
+            ${fTeks("Nota kecil (pilihan)", `kemenjadian.pencapaian.${i}.nota`)}
+            <div class="f">${btnBuang("buangPencapaian", i)}</div>
+          </div>`).join("")}
+        ${btnTambah("tambahPencapaian", "Tambah pencapaian")}
+      </div>`;
+  },
+
+  kajianamalan() {
+    return `
+      <h2>Kajian & Amalan</h2>
+      <p class="desc">Kandungan bagi ruangan Kajian Tindakan &amp; Inovasi dan Amalan Baik.</p>
+      <div class="card">
+        <div class="card-head"><h3>Kajian Tindakan &amp; Inovasi</h3></div>
+        ${state.kajian.map((k, i) => `
+          <div class="card" style="background:#FAFBFD">
+            <div class="card-head"><h3>Item ${i + 1}</h3>${btnBuang("buangKajian", i)}</div>
+            ${fTeks("Tajuk", `kajian.${i}.tajuk`)}
+            ${fArea("Keterangan", `kajian.${i}.teks`, { rows: 2 })}
+          </div>`).join("")}
+        ${btnTambah("tambahKajian", "Tambah item kajian / inovasi")}
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>Amalan Baik</h3></div>
+        ${state.amalan.map((a, i) => `
+          <div class="card" style="background:#FAFBFD">
+            <div class="card-head"><h3>Amalan ${i + 1}</h3>${btnBuang("buangAmalan", i)}</div>
+            ${fTeks("Tajuk", `amalan.${i}.tajuk`)}
+            ${fArea("Keterangan", `amalan.${i}.teks`, { rows: 2 })}
+          </div>`).join("")}
+        ${btnTambah("tambahAmalan", "Tambah amalan")}
+      </div>`;
+  },
+
+  kenangan() {
+    return `
+      <h2>Kenangan</h2>
+      <p class="desc">Galeri gambar bersama murid. Gunakan pautan gambar (cth: dari Google Drive yang dikongsi secara awam, Google Photos atau hosting laman). Susunan grid ditentukan secara automatik.</p>
+      ${btnTambah("tambahKenangan", "Tambah gambar")}
+      ${state.kenangan.map((g, i) => `
+        <div class="card">
+          <div class="gal-row">
+            <img class="thumb" src="${esc(g.img)}" alt="" onerror="this.style.opacity=.25">
+            <div class="fields">
+              <div class="grid2" style="grid-template-columns:1.4fr 1fr auto;align-items:end">
+                ${fTeks("URL Gambar", `kenangan.${i}.img`, { jenis: "url" })}
+                ${fTeks("Kapsyen", `kenangan.${i}.kapsyen`)}
+                <div class="f">${btnBuang("buangKenangan", i)}</div>
+              </div>
+            </div>
+          </div>
+        </div>`).join("")}`;
+  },
+
+  rekod() {
+    return `
+      <h2>Rekod Murid</h2>
+      <p class="desc">Rekod peperiksaan dan PBD yang boleh disemak murid melalui nama penuh atau nombor IC.</p>
+      ${state.tetapan.apiUrl ? `
+      <div class="info">
+        <i class="ph-fill ph-database"></i>
+        <span><b>Mod pangkalan data aktif.</b> Rekod di bawah diedit dalam panel ini, kemudian diterbitkan terus ke pangkalan data SQLite di pelayan. Dalam mod ini, senarai rekod dalam data.js boleh dikosongkan supaya tiada data murid terdedah dalam kod sumber laman.</span>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>Pangkalan Data</h3></div>
+        <div style="display:flex;gap:.6rem;flex-wrap:wrap;align-items:center">
+          <button class="btn btn-ghost" data-act="muatDb"><i class="ph ph-cloud-arrow-down"></i>Muat dari pangkalan data</button>
+          <button class="btn btn-primary" data-act="terbitDb"><i class="ph ph-cloud-arrow-up"></i>Terbit ke pangkalan data</button>
+          <span class="f-help" id="dbStatus"></span>
+        </div>
+      </div>` : `
+      <div class="warn">
+        <i class="ph-fill ph-warning"></i>
+        <span><b>Peringatan privasi:</b> rekod dalam fail data.js boleh dilihat oleh sesiapa yang membuka kod sumber laman. Untuk data sebenar, aktifkan mod pangkalan data SQLite melalui tab <b>Tetapan &amp; Bantuan</b> (memerlukan hosting PHP), atau tandakan rekod percubaan sebagai "Rekod contoh".</span>
+      </div>`}
+      ${btnTambah("tambahMurid", "Tambah murid")}
+      ${state.rekod.map((r, i) => `
+        <div class="card">
+          <div class="card-head"><h3>${esc(r.nama || "Murid " + (i + 1))}</h3>${btnBuang("buangMurid", i)}</div>
+          <div class="grid2">
+            ${fTeks("Nama Penuh", `rekod.${i}.nama`)}
+            ${fTeks("No. Kad Pengenalan", `rekod.${i}.ic`, { placeholder: "cth: 090512-03-0456" })}
+            ${fTeks("Tingkatan", `rekod.${i}.tingkatan`, { placeholder: "cth: Tingkatan 4" })}
+            ${fTeks("Kelas", `rekod.${i}.kelas`, { placeholder: "cth: 4 Amanah" })}
+          </div>
+          <div class="f">
+            <label class="check"><input type="checkbox" data-path="rekod.${i}.contoh" data-bool="1" ${r.contoh ? "checked" : ""}> Tandakan sebagai rekod contoh</label>
+          </div>
+          <div class="f"><label class="f-label">Keputusan Peperiksaan</label>
+            <div class="mini-table">
+              <div class="mini-row mini-head-row"><span>Peperiksaan</span><span>Markah</span><span>Gred</span><span></span></div>
+              ${(r.exam || []).map((x, j) => `
+                <div class="mini-row">
+                  <input type="text" data-path="rekod.${i}.exam.${j}.nama" value="${esc(x.nama)}">
+                  <input type="number" min="0" max="100" data-num="1" data-path="rekod.${i}.exam.${j}.markah" value="${esc(x.markah)}">
+                  <input type="text" data-path="rekod.${i}.exam.${j}.gred" value="${esc(x.gred)}">
+                  ${btnBuang("buangExam", i + "," + j)}
+                </div>`).join("")}
+            </div>
+          </div>
+          <button class="add-btn" data-act="tambahExam" data-arg="${i}" style="margin-bottom:1.2rem"><i class="ph ph-plus-circle"></i>Tambah baris peperiksaan</button>
+          <div class="f"><label class="f-label">PBD (Tahap Penguasaan)</label>
+            <div class="mini-table">
+              <div class="mini-row pbd mini-head-row"><span>Bab</span><span>TP (1-6)</span><span></span></div>
+              ${(r.pbd || []).map((x, j) => `
+                <div class="mini-row pbd">
+                  <input type="text" data-path="rekod.${i}.pbd.${j}.bab" value="${esc(x.bab)}">
+                  <input type="number" min="1" max="6" data-num="1" data-path="rekod.${i}.pbd.${j}.tp" value="${esc(x.tp)}">
+                  ${btnBuang("buangPbd", i + "," + j)}
+                </div>`).join("")}
+            </div>
+          </div>
+          <button class="add-btn" data-act="tambahPbd" data-arg="${i}"><i class="ph ph-plus-circle"></i>Tambah baris PBD</button>
+        </div>`).join("")}`;
+  },
+
+  tetapan() {
+    return `
+      <h2>Tetapan &amp; Bantuan</h2>
+      <p class="desc">Tetapan kecil dan panduan menerbitkan perubahan.</p>
+      <div class="card">
+        <div class="card-head"><h3>Kaunter Lawatan</h3></div>
+        ${fTeks("Nombor permulaan kaunter", "tetapan.kaunterMula", { jenis: "number", help: "Kiraan lawatan bermula daripada nombor ini. Kaunter sebenar memerlukan Google Analytics atau widget kaunter." })}
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>Cadangan Nama (Autolengkap)</h3></div>
+        <div class="f">
+          <label class="check"><input type="checkbox" data-path="tetapan.cadanganNama" data-bool="1" ${state.tetapan.cadanganNama ? "checked" : ""}> Aktifkan cadangan nama pada borang semakan</label>
+          <span class="f-help">Cadangan muncul selepas 4 huruf ditaip, maksimum 5 nama, nama sahaja tanpa kelas atau markah. Perhatian: sesiapa yang menaip di laman boleh melihat nama murid yang dicadangkan. Nyahtanda untuk mematikan ciri ini.</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>Pangkalan Data Rekod (SQLite)</h3></div>
+        <p style="font-size:.86rem;color:var(--muted);margin-bottom:1rem">Jika hosting menyokong PHP, muat naik folder <b>api</b> bersama laman. Rekod murid akan disimpan dalam pangkalan data SQLite di pelayan, bukan dalam data.js yang terbuka.</p>
+        ${fTeks("URL folder API", "tetapan.apiUrl", { jenis: "url", placeholder: "https://domainanda.com/api", help: "Biarkan kosong untuk guna rekod dalam data.js sahaja. Untuk laman di hosting yang sama, cukup tulis: api" })}
+        <div class="f">
+          <label class="f-label">Kunci Admin</label>
+          <input type="password" id="adminKeyInput" value="${esc(localStorage.getItem("uh_admin_key") || "")}" placeholder="Sama seperti ADMIN_KEY dalam api/config.php">
+          <span class="f-help">Kunci ini disimpan dalam pelayar ini sahaja dan TIDAK dimasukkan ke dalam data.js.</span>
+        </div>
+        <div style="display:flex;gap:.7rem;align-items:center;flex-wrap:wrap">
+          <button class="btn btn-ghost" data-act="ujiApi"><i class="ph ph-plugs-connected"></i>Uji Sambungan</button>
+          <span class="f-help" id="apiStatus"></span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>Cara menerbitkan perubahan</h3></div>
+        <p style="font-size:.86rem;color:var(--muted);margin-bottom:1rem"><b>Hosting PHP (folder api aktif):</b> cukup klik butang <b>Simpan</b> di bahagian atas. Fail data.js di pelayan akan dikemas kini terus. Pastikan URL API dan Kunci Admin telah diisi di atas.</p>
+        <p style="font-size:.86rem;color:var(--muted);margin-bottom:1rem"><b>GitHub Pages + Cloudflare Worker (GITHUB_TOKEN dikonfigurasi):</b> klik <b>Simpan</b> juga. Worker akan commit fail data.js terus ke repo GitHub anda. Tiada Muat Turun / muat naik manual diperlukan.</p>
+        <p style="font-size:.86rem;color:var(--muted);margin-bottom:1rem"><b>Hosting statik tanpa GitHub dikonfigurasi:</b> ikut langkah di bawah.</p>
+        <div class="langkah">
+          <div>Buat perubahan dalam panel ini. Setiap perubahan disimpan secara automatik sebagai draf dalam pelayar ini sahaja.</div>
+          <div>Klik butang <b>"Muat Turun data.js"</b> di bahagian atas. Satu fail bernama <b>data.js</b> akan dimuat turun.</div>
+          <div>Gantikan fail <b>data.js</b> lama di folder laman (atau di hosting) dengan fail baharu ini.</div>
+          <div>Muat semula laman untuk melihat perubahan. Selesai!</div>
+        </div>
+      </div>
+      <div class="info">
+        <i class="ph-fill ph-info"></i>
+        <span>Butang <b>Import</b> di atas boleh digunakan untuk membuka semula fail data.js sedia ada (contohnya salinan sandaran) ke dalam panel ini.</span>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>Draf</h3></div>
+        <p style="font-size:.86rem;color:var(--muted);margin-bottom:1rem">Memadam draf akan mengembalikan panel kepada kandungan fail data.js semasa. Perubahan yang belum dimuat turun akan hilang.</p>
+        <button class="btn btn-danger" data-act="padamDraf"><i class="ph ph-trash"></i>Padam draf &amp; muat semula</button>
+      </div>`;
+  },
+};
+
+function lukisPanel() {
+  panel.innerHTML = LUKIS[tabAktif]();
+}
+
+/* ---------- kemas kini nilai medan ---------- */
+panel.addEventListener("input", e => {
+  const el = e.target;
+  if (el.id === "adminKeyInput") {
+    localStorage.setItem("uh_admin_key", el.value);
+    return;
+  }
+  const path = el.dataset.path;
+  if (!path) return;
+  let nilai;
+  if (el.dataset.bool) nilai = el.checked;
+  else if (el.dataset.num) nilai = el.value === "" ? "" : Number(el.value);
+  else nilai = el.value;
+  tetapkan(state, path, nilai);
+  simpanDraf();
+});
+
+/* ---------- tindakan struktur (tambah / buang) ---------- */
+const TINDAKAN = {
+  pilihBahan(arg) { bahanAktif = Number(arg); },
+  tambahHeroFact() { state.heroFacts.push({ tajuk: "", huraian: "" }); },
+  buangHeroFact(i) { state.heroFacts.splice(i, 1); },
+  tambahPengumuman() {
+    state.pengumuman.unshift({ tarikh: new Date().toISOString().slice(0, 10), tajuk: "", teks: "", tag: "" });
+  },
+  buangPengumuman(i) { state.pengumuman.splice(i, 1); },
+  tambahBab() { state.bahan[bahanAktif].bab.push({ t: "", nota: "", latihan: "", video: "" }); },
+  buangBab(i) { state.bahan[bahanAktif].bab.splice(i, 1); },
+  tambahStat() { state.kemenjadian.stats.push({ label: "", nilai: "", cap: "" }); },
+  buangStat(i) { state.kemenjadian.stats.splice(i, 1); },
+  tambahPencapaian() { state.kemenjadian.pencapaian.push({ teks: "", nota: "" }); },
+  buangPencapaian(i) { state.kemenjadian.pencapaian.splice(i, 1); },
+  tambahKajian() { state.kajian.push({ tajuk: "", teks: "" }); },
+  buangKajian(i) { state.kajian.splice(i, 1); },
+  tambahAmalan() { state.amalan.push({ tajuk: "", teks: "" }); },
+  buangAmalan(i) { state.amalan.splice(i, 1); },
+  tambahKenangan() { state.kenangan.unshift({ img: "", kapsyen: "" }); },
+  buangKenangan(i) { state.kenangan.splice(i, 1); },
+  tambahMurid() {
+    state.rekod.unshift({ nama: "", ic: "", tingkatan: "", kelas: "", contoh: false,
+      exam: [{ nama: "Ujian 1", markah: "", gred: "" }],
+      pbd: [{ bab: "", tp: "" }] });
+  },
+  buangMurid(i) { state.rekod.splice(i, 1); },
+  tambahExam(i) { state.rekod[i].exam.push({ nama: "", markah: "", gred: "" }); },
+  buangExam(arg) { const [i, j] = arg.split(","); state.rekod[i].exam.splice(j, 1); },
+  tambahPbd(i) { state.rekod[i].pbd.push({ bab: "", tp: "" }); },
+  buangPbd(arg) { const [i, j] = arg.split(","); state.rekod[i].pbd.splice(j, 1); },
+  padamDraf() {
+    if (!confirm("Padam draf dan kembali kepada kandungan data.js semasa?")) return;
+    localStorage.removeItem(DRAF_KEY);
+    location.reload();
+  },
+
+  buangFoto() {
+    state.profil.fotoUrl = "";
+  },
+
+  /* ---------- tindakan pangkalan data (SQLite melalui api/) ---------- */
+  async ujiApi() {
+    const s = document.getElementById("apiStatus");
+    const { url, kunci } = apiAsas();
+    if (!url) { s.textContent = "Isi URL folder API dahulu."; return; }
+    s.textContent = "Menguji sambungan...";
+    try {
+      const r = await fetch(url + "/rekod_admin.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-Admin-Key": kunci },
+        body: JSON.stringify({ action: "ping" }),
+      });
+      const j = await r.json();
+      s.textContent = j.ok
+        ? `Berjaya! ${j.jumlah} rekod dalam pangkalan data.`
+        : (j.mesej || "Gagal. Semak kunci admin.");
+    } catch (err) {
+      s.textContent = "Tidak dapat menghubungi API. Semak URL dan pastikan folder api telah dimuat naik.";
+    }
+  },
+
+  async muatDb() {
+    const { url, kunci } = apiAsas();
+    const s = document.getElementById("dbStatus");
+    if (!confirm("Muat rekod dari pangkalan data? Senarai rekod dalam panel ini akan digantikan.")) return;
+    s.textContent = "Memuat...";
+    try {
+      const r = await fetch(url + "/rekod_admin.php", {
+        headers: { "X-Admin-Key": kunci },
+      });
+      const j = await r.json();
+      if (!j.ok) { s.textContent = j.mesej || "Gagal."; return; }
+      state.rekod = j.rekod;
+      simpanDraf();
+      lukisPanel();
+      document.getElementById("dbStatus").textContent = `${j.rekod.length} rekod dimuat dari pangkalan data.`;
+    } catch (err) {
+      s.textContent = "Tidak dapat menghubungi API.";
+    }
+  },
+
+  async terbitDb() {
+    const { url, kunci } = apiAsas();
+    const s = document.getElementById("dbStatus");
+    if (!confirm(`Terbit ${state.rekod.length} rekod ke pangkalan data? SEMUA rekod sedia ada di pelayan akan digantikan.`)) return;
+    s.textContent = "Menerbit...";
+    try {
+      const r = await fetch(url + "/rekod_admin.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-Admin-Key": kunci },
+        body: JSON.stringify({ action: "replaceAll", rekod: state.rekod }),
+      });
+      const j = await r.json();
+      s.textContent = j.ok
+        ? `Berjaya! ${j.jumlah} rekod diterbitkan ke pangkalan data.`
+        : (j.mesej || "Gagal. Semak kunci admin.");
+    } catch (err) {
+      s.textContent = "Tidak dapat menghubungi API.";
+    }
+  },
+};
+
+const TINDAKAN_DB = { ujiApi: 1, muatDb: 1, terbitDb: 1 };
+
+function apiAsas() {
+  return {
+    url: String(state.tetapan.apiUrl || "").replace(/\/+$/, ""),
+    kunci: localStorage.getItem("uh_admin_key") || "",
+  };
+}
+
+panel.addEventListener("click", e => {
+  const b = e.target.closest("[data-act]");
+  if (!b) return;
+  const act = b.dataset.act;
+  if (!TINDAKAN[act]) return;
+  if (TINDAKAN_DB[act]) { TINDAKAN[act](); return; }
+  const buang = act.startsWith("buang");
+  if (buang && !confirm("Buang item ini?")) return;
+  TINDAKAN[act](b.dataset.arg);
+  if (act !== "padamDraf") {
+    if (act !== "pilihBahan") simpanDraf();
+    lukisPanel();
+  }
+});
+
+/* ---------- muat naik foto (dikecilkan, disimpan sebagai data URL) ---------- */
+function muatNaikFoto(fail) {
+  if (!fail.type.startsWith("image/")) {
+    alert("Sila pilih fail imej (JPG / PNG).");
+    return;
+  }
+  const pembaca = new FileReader();
+  pembaca.onload = () => {
+    const img = new Image();
+    img.onload = () => {
+      const MAKS = 800; /* sisi terpanjang */
+      const skala = Math.min(1, MAKS / Math.max(img.width, img.height));
+      const w = Math.round(img.width * skala);
+      const h = Math.round(img.height * skala);
+      const kanvas = document.createElement("canvas");
+      kanvas.width = w;
+      kanvas.height = h;
+      kanvas.getContext("2d").drawImage(img, 0, 0, w, h);
+      state.profil.fotoUrl = kanvas.toDataURL("image/jpeg", 0.85);
+      simpanDraf();
+      lukisPanel();
+      setStatus(`Foto dimuat naik ke draf (${w}x${h}). Klik <b>Simpan</b> atau <b>Muat Turun data.js</b> untuk terbitkan.`, true);
+    };
+    img.onerror = () => alert("Fail imej tidak dapat dibaca.");
+    img.src = pembaca.result;
+  };
+  pembaca.readAsDataURL(fail);
+}
+panel.addEventListener("change", e => {
+  if (e.target.id === "fotoUpload") {
+    const f = e.target.files[0];
+    if (f) muatNaikFoto(f);
+    e.target.value = "";
+  }
+});
+
+/* ---------- muat turun data.js (sandaran / hosting statik) ---------- */
+function muatTurunDataJs() {
+  const kepala = `/* ============================================================
+   DATA KANDUNGAN LAMAN
+   Dijana oleh admin.html pada ${new Date().toLocaleString("ms-MY")}.
+   Gantikan fail data.js lama di folder laman / hosting dengan
+   fail ini, kemudian muat semula laman.
+   ============================================================ */
+window.SITE_DATA = `;
+  const teks = kepala + JSON.stringify(state, null, 2) + ";\n";
+  const blob = new Blob([teks], { type: "text/javascript;charset=utf-8" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "data.js";
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+document.getElementById("btnDownload").addEventListener("click", () => {
+  muatTurunDataJs();
+  setStatus(`Fail <b>data.js</b> dimuat turun. Gantikan fail lama di folder laman / hosting.`, true);
+});
+
+/* ---------- SIMPAN: tulis data.js terus ke pelayan ---------- */
+const btnSimpan = document.getElementById("btnSimpan");
+btnSimpan.addEventListener("click", async () => {
+  const { url, kunci } = apiAsas();
+  if (!url) {
+    /* tiada API: jatuh balik kepada muat turun */
+    muatTurunDataJs();
+    setStatus(`Tiada API dikonfigurasi (tab Tetapan), jadi fail <b>data.js</b> dimuat turun. Gantikan fail lama di hosting.`, true);
+    return;
+  }
+  /* batalkan autosimpan draf yang tertangguh; perubahan terkini
+     sudah pun berada dalam `state` yang bakal dihantar */
+  clearTimeout(simpanTimer);
+  const labelAsal = btnSimpan.innerHTML;
+  btnSimpan.disabled = true;
+  btnSimpan.innerHTML = `<i class="ph ph-circle-notch"></i>Menyimpan...`;
+  try {
+    const r = await fetch(url + "/kandungan_admin.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Admin-Key": kunci },
+      body: JSON.stringify({ action: "save", data: state }),
+    });
+    const j = await r.json().catch(() => null);
+    if (j && j.ok) {
+      clearTimeout(simpanTimer);
+      localStorage.removeItem(DRAF_KEY);
+      sumberDraf = false;
+      setStatus(`<b>Disimpan!</b> Laman telah dikemas kini terus. Muat semula laman untuk melihat perubahan.`, true);
+    } else {
+      const mesejRalat = ((j && j.mesej) || "Gagal menyimpan ke pelayan").replace(/[.\s]+$/, "");
+      setStatus(`${mesejRalat}. Anda masih boleh guna <b>Muat Turun data.js</b>.`, true);
+    }
+  } catch (err) {
+    setStatus(`API tidak dapat dihubungi. Guna <b>Muat Turun data.js</b>, atau semak URL API di tab Tetapan.`, true);
+  }
+  btnSimpan.disabled = false;
+  btnSimpan.innerHTML = labelAsal;
+});
+
+/* ---------- import data.js sedia ada ---------- */
+document.getElementById("btnImport").addEventListener("click", () => document.getElementById("fileImport").click());
+document.getElementById("fileImport").addEventListener("change", e => {
+  const fail = e.target.files[0];
+  if (!fail) return;
+  const pembaca = new FileReader();
+  pembaca.onload = () => {
+    try {
+      const teks = String(pembaca.result);
+      const mula = teks.indexOf("{");
+      const akhir = teks.lastIndexOf("}");
+      if (mula < 0 || akhir < 0) throw new Error("format");
+      const data = JSON.parse(teks.slice(mula, akhir + 1));
+      if (!data.profil || !data.bahan) throw new Error("struktur");
+      state = data;
+      localStorage.setItem(DRAF_KEY, JSON.stringify(state));
+      sumberDraf = true;
+      lukisPanel();
+      setStatus("Fail berjaya diimport dan disimpan sebagai draf.", true);
+    } catch (err) {
+      alert("Fail tidak dapat dibaca. Pastikan ia fail data.js yang dijana oleh panel ini.");
+    }
+  };
+  pembaca.readAsText(fail);
+  e.target.value = "";
+});
+
+/* ---------- mula ---------- */
+lukisSideNav();
+lukisPanel();
+</script>
+</body>
+</html>

@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cikgu Halimatun Saadiah binti Jusoh | Portfolio Guru Sains</title>
+<meta name="description" content="Portfolio rasmi Cikgu Halimatun Saadiah binti Jusoh. Nota, latihan, video dan semakan keputusan Sains KSSM Tingkatan 1 hingga 5.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+<script src="data.js"></script>
+<style>
+/* ============================================================
+   TOKEN SYSTEM
+   Shape rule: buttons & chips = pill, cards = 24px, inputs = 12px
+   Accent lock: amber (--amber) is the ONLY accent on this page
+   ============================================================ */
+:root{
+  --bg:#F5F7FA;
+  --surface:#FFFFFF;
+  --ink:#16222F;
+  --muted:#57697C;
+  --blue-950:#0A1E33;
+  --blue-900:#13304E;
+  --blue-700:#22568A;
+  --blue-100:#E2EAF3;
+  --amber:#C4861F;
+  --amber-soft:#F4E7CF;
+  --line:rgba(22,34,47,.10);
+  --radius-card:24px;
+  --radius-input:12px;
+  --shadow-soft:0 24px 60px -28px rgba(19,48,78,.22);
+  --ease:cubic-bezier(.32,.72,0,1);
+  --font-display:"Bricolage Grotesque",sans-serif;
+  --font-body:"Manrope",sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  font-family:var(--font-body);
+  background:var(--bg);
+  color:var(--ink);
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+::selection{background:var(--amber-soft);color:var(--blue-950)}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+
+h1,h2,h3{font-family:var(--font-display);line-height:1.12;letter-spacing:-.02em;color:var(--blue-950)}
+h2{font-size:clamp(1.9rem,3.4vw,2.7rem);font-weight:700}
+.section-sub{color:var(--muted);max-width:58ch;margin-top:.9rem;font-size:1.02rem}
+
+.wrap{max-width:1180px;margin-inline:auto;padding-inline:clamp(1.1rem,4vw,2.5rem)}
+section{padding-block:clamp(4.5rem,9vw,7.5rem)}
+
+/* ---------- reveal on scroll ---------- */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+/* ---------- eyebrow (rationed: hero, bahan, semakan only) ---------- */
+.eyebrow{
+  display:inline-flex;align-items:center;gap:.45rem;
+  border:1px solid var(--line);background:var(--surface);
+  border-radius:999px;padding:.34rem .9rem;
+  font-size:.68rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--blue-700);
+}
+.eyebrow i{color:var(--amber);font-size:.85rem}
+
+/* ============================================================
+   NAV : floating pill
+   ============================================================ */
+.nav{
+  position:fixed;top:1.1rem;left:50%;transform:translateX(-50%);
+  z-index:100;width:min(1060px,calc(100% - 2rem));
+  display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;padding:.55rem .6rem .55rem 1.15rem;
+  background:rgba(255,255,255,.78);
+  backdrop-filter:blur(18px) saturate(160%);
+  -webkit-backdrop-filter:blur(18px) saturate(160%);
+  border:1px solid rgba(22,34,47,.08);
+  border-radius:999px;
+  box-shadow:0 12px 40px -18px rgba(19,48,78,.25);
+}
+.nav-brand{display:flex;align-items:center;gap:.6rem;font-family:var(--font-display);font-weight:700;font-size:1rem;white-space:nowrap}
+.nav-brand .mark{
+  width:34px;height:34px;border-radius:999px;flex:0 0 auto;
+  background:var(--blue-900);color:#F3EBD8;
+  display:grid;place-items:center;
+  font-size:.72rem;font-weight:700;letter-spacing:.04em;
+}
+.nav-links{display:flex;align-items:center;gap:.15rem;list-style:none}
+.nav-links a{
+  padding:.5rem .85rem;border-radius:999px;font-size:.88rem;font-weight:600;color:var(--muted);
+  transition:color .35s var(--ease),background .35s var(--ease);
+}
+.nav-links a:hover{color:var(--blue-950);background:rgba(34,86,138,.07)}
+.nav-cta{
+  display:inline-flex;align-items:center;gap:.55rem;
+  background:var(--blue-900);color:#F6F3E9;
+  border:none;border-radius:999px;padding:.5rem .5rem .5rem 1.05rem;
+  font-size:.85rem;font-weight:700;white-space:nowrap;
+  transition:transform .5s var(--ease),background .5s var(--ease);
+}
+.nav-cta .dot-ic{width:28px;height:28px;border-radius:999px;background:rgba(255,255,255,.14);display:grid;place-items:center;font-size:.8rem;transition:transform .5s var(--ease)}
+.nav-cta:hover{background:var(--blue-700)}
+.nav-cta:hover .dot-ic{transform:translate(2px,-1px)}
+.nav-cta:active{transform:scale(.97)}
+.burger{display:none;width:40px;height:40px;border-radius:999px;border:1px solid var(--line);background:var(--surface);position:relative}
+.burger span{position:absolute;left:11px;right:11px;height:2px;background:var(--blue-950);border-radius:2px;transition:transform .45s var(--ease),top .45s var(--ease)}
+.burger span:nth-child(1){top:15px}
+.burger span:nth-child(2){top:23px}
+.burger.open span:nth-child(1){top:19px;transform:rotate(45deg)}
+.burger.open span:nth-child(2){top:19px;transform:rotate(-45deg)}
+
+.mobile-menu{
+  position:fixed;inset:0;z-index:90;
+  background:rgba(245,247,250,.92);
+  backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);
+  display:grid;place-items:center;
+  opacity:0;pointer-events:none;transition:opacity .5s var(--ease);
+}
+.mobile-menu.open{opacity:1;pointer-events:auto}
+.mobile-menu ul{list-style:none;text-align:center;display:grid;gap:1.1rem}
+.mobile-menu a{
+  font-family:var(--font-display);font-size:1.7rem;font-weight:700;color:var(--blue-950);
+  display:inline-block;opacity:0;transform:translateY(18px);
+  transition:opacity .55s var(--ease),transform .55s var(--ease);
+}
+.mobile-menu.open a{opacity:1;transform:none}
+.mobile-menu.open li:nth-child(1) a{transition-delay:.08s}
+.mobile-menu.open li:nth-child(2) a{transition-delay:.13s}
+.mobile-menu.open li:nth-child(3) a{transition-delay:.18s}
+.mobile-menu.open li:nth-child(4) a{transition-delay:.23s}
+.mobile-menu.open li:nth-child(5) a{transition-delay:.28s}
+.mobile-menu.open li:nth-child(6) a{transition-delay:.33s}
+
+/* ============================================================
+   HERO : asymmetric split
+   ============================================================ */
+.hero{
+  min-height:100dvh;display:flex;align-items:center;
+  padding-top:6.5rem;padding-bottom:3rem;position:relative;
+}
+.hero::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(560px 420px at 82% 18%,rgba(34,86,138,.10),transparent 65%),
+    radial-gradient(420px 380px at 8% 85%,rgba(196,134,31,.09),transparent 65%);
+}
+.hero-grid{display:grid;grid-template-columns:1.05fr .8fr;gap:clamp(2rem,5vw,4.5rem);align-items:center;position:relative}
+.hero h1{font-size:clamp(2.5rem,5.4vw,4.3rem);font-weight:800;margin:1.3rem 0 1.2rem}
+.hero h1 em{font-style:italic;color:var(--blue-700);line-height:1.1;display:inline-block;padding-bottom:.15em}
+.hero-sub{color:var(--muted);font-size:1.08rem;max-width:44ch}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2.1rem}
+.btn{
+  display:inline-flex;align-items:center;gap:.7rem;
+  border-radius:999px;font-weight:700;font-size:.95rem;
+  padding:.8rem .8rem .8rem 1.5rem;border:none;
+  transition:transform .5s var(--ease),background .5s var(--ease),border-color .5s var(--ease);
+}
+.btn .dot-ic{width:34px;height:34px;border-radius:999px;display:grid;place-items:center;font-size:.95rem;transition:transform .5s var(--ease)}
+.btn:hover .dot-ic{transform:translate(2px,-2px) scale(1.05)}
+.btn:active{transform:scale(.98)}
+.btn-primary{background:var(--blue-900);color:#F6F3E9}
+.btn-primary .dot-ic{background:rgba(255,255,255,.14)}
+.btn-primary:hover{background:var(--blue-700)}
+.btn-ghost{background:transparent;color:var(--blue-950);border:1.5px solid rgba(22,34,47,.18)}
+.btn-ghost .dot-ic{background:rgba(34,86,138,.08)}
+.btn-ghost:hover{border-color:var(--blue-700)}
+
+/* portrait card : double bezel */
+.portrait-shell{
+  background:rgba(19,48,78,.05);
+  border:1px solid rgba(19,48,78,.08);
+  border-radius:2rem;padding:.55rem;
+  box-shadow:var(--shadow-soft);
+  transform:rotate(1.4deg);
+}
+.portrait-core{
+  border-radius:calc(2rem - .55rem);overflow:hidden;position:relative;
+  background:linear-gradient(160deg,var(--blue-900),var(--blue-700) 70%,#2E639B);
+  aspect-ratio:4/4.7;
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.14);
+  display:flex;flex-direction:column;justify-content:space-between;
+  padding:1.6rem;color:#EDF2F8;
+}
+.portrait-core .initials{
+  font-family:var(--font-display);font-weight:800;
+  font-size:clamp(4rem,8vw,6.2rem);letter-spacing:-.03em;color:#F3EBD8;
+  line-height:1;
+}
+.portrait-core .p-note{font-size:.82rem;color:rgba(243,235,216,.75);max-width:26ch}
+.portrait-core .p-role{
+  align-self:flex-start;border:1px solid rgba(243,235,216,.3);border-radius:999px;
+  padding:.35rem .85rem;font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+}
+.portrait-core::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(380px 300px at 85% 0%,rgba(196,134,31,.28),transparent 60%);
+}
+.hero-facts{display:flex;gap:1.6rem;margin-top:2.6rem;flex-wrap:wrap}
+.hero-facts div{border-left:2px solid var(--amber);padding-left:.9rem}
+.hero-facts b{font-family:var(--font-display);font-size:1.05rem;display:block;color:var(--blue-950)}
+.hero-facts span{font-size:.82rem;color:var(--muted)}
+
+/* ============================================================
+   PROFIL
+   ============================================================ */
+.profil-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(2rem,5vw,4rem);align-items:start;margin-top:3rem}
+.profil-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);
+  padding:1.9rem;box-shadow:var(--shadow-soft);
+}
+.profil-card h3{font-size:1.05rem;margin-bottom:1.2rem;display:flex;align-items:center;gap:.6rem}
+.profil-card h3 i{color:var(--amber)}
+.profil-rows{display:grid;gap:0}
+.profil-rows>div{display:flex;justify-content:space-between;gap:1rem;padding:.85rem 0;border-top:1px solid var(--line)}
+.profil-rows span{color:var(--muted);font-size:.9rem}
+.profil-rows b{font-size:.92rem;text-align:right}
+.profil-bio p{color:var(--muted);margin-bottom:1.1rem;max-width:62ch}
+.profil-quote{
+  margin-top:1.8rem;padding:1.4rem 1.6rem;border-radius:var(--radius-card);
+  background:var(--blue-100);border:1px solid rgba(34,86,138,.12);
+  font-family:var(--font-display);font-size:1.15rem;font-weight:600;color:var(--blue-900);
+}
+.profil-quote small{display:block;margin-top:.5rem;font-family:var(--font-body);font-weight:600;font-size:.8rem;color:var(--muted)}
+
+/* ============================================================
+   PENGUMUMAN
+   ============================================================ */
+.notice-list{display:grid;gap:1rem;margin-top:2.6rem}
+.notice{
+  display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:1.4rem;
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);
+  padding:1.25rem 1.5rem;
+  transition:transform .5s var(--ease),box-shadow .5s var(--ease);
+}
+.notice:hover{transform:translateY(-3px);box-shadow:var(--shadow-soft)}
+.notice-date{
+  text-align:center;background:var(--blue-100);border-radius:16px;padding:.55rem .8rem;min-width:64px;
+}
+.notice-date b{display:block;font-family:var(--font-display);font-size:1.3rem;color:var(--blue-900);line-height:1.1}
+.notice-date span{font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--blue-700)}
+.notice h3{font-size:1.02rem;margin-bottom:.2rem}
+.notice p{font-size:.88rem;color:var(--muted)}
+.notice-tag{
+  font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--amber);border:1px solid var(--amber-soft);background:#FCF7EC;
+  padding:.3rem .75rem;border-radius:999px;white-space:nowrap;
+}
+
+/* ============================================================
+   BAHAN PEMBELAJARAN
+   ============================================================ */
+.tabs{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:2.4rem;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:.4rem;width:max-content;max-width:100%}
+.tab{
+  border:none;background:transparent;border-radius:999px;
+  padding:.6rem 1.25rem;font-size:.9rem;font-weight:700;color:var(--muted);
+  transition:background .4s var(--ease),color .4s var(--ease);
+}
+.tab:hover{color:var(--blue-950)}
+.tab.active{background:var(--blue-900);color:#F6F3E9}
+.bab-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:1.8rem}
+.bab-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);
+  padding:1.35rem 1.5rem;display:flex;flex-direction:column;gap:.9rem;
+  transition:transform .5s var(--ease),box-shadow .5s var(--ease);
+}
+.bab-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-soft)}
+.bab-head{display:flex;align-items:baseline;gap:.9rem}
+.bab-num{
+  font-family:var(--font-display);font-weight:800;font-size:1.5rem;color:var(--blue-700);
+  min-width:2.2rem;
+}
+.bab-head h3{font-size:1rem;line-height:1.35}
+.chips{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:auto}
+.chip{
+  display:inline-flex;align-items:center;gap:.4rem;
+  border-radius:999px;padding:.42rem .9rem;font-size:.8rem;font-weight:700;
+  border:1px solid rgba(22,34,47,.14);color:var(--blue-950);background:transparent;
+  transition:background .4s var(--ease),transform .4s var(--ease),border-color .4s var(--ease);
+}
+.chip i{font-size:.9rem;color:var(--amber)}
+.chip:hover{background:var(--blue-100);border-color:var(--blue-700);transform:translateY(-1px)}
+.chip.pending{opacity:.45;cursor:default;border-style:dashed}
+.chip.pending:hover{background:transparent;border-color:rgba(22,34,47,.14);transform:none}
+.bahan-note{
+  margin-top:1.6rem;display:flex;gap:.7rem;align-items:flex-start;
+  font-size:.85rem;color:var(--muted);max-width:70ch;
+}
+.bahan-note i{color:var(--amber);margin-top:.15rem}
+
+/* ============================================================
+   SEMAKAN : deep green band
+   ============================================================ */
+.semakan{background:var(--blue-950);color:#E8EDF2;position:relative;overflow:hidden}
+.semakan::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(700px 480px at 85% 10%,rgba(196,134,31,.14),transparent 60%);
+}
+.semakan .wrap{position:relative}
+.semakan h2{color:#F3EBD8}
+.semakan .section-sub{color:rgba(232,237,242,.62)}
+.semakan .eyebrow{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);color:#D8C89B}
+.semakan-panel{
+  margin-top:2.8rem;
+  background:rgba(255,255,255,.045);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:2rem;padding:.55rem;
+}
+.semakan-core{
+  background:rgba(10,30,51,.72);border-radius:calc(2rem - .55rem);
+  border:1px solid rgba(255,255,255,.06);
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.06);
+  padding:clamp(1.5rem,4vw,2.6rem);
+  display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(1.6rem,4vw,3rem);
+}
+.semakan-form label{display:block;font-size:.82rem;font-weight:700;margin:1.1rem 0 .4rem;color:#CBD8E6}
+.semakan-form label:first-of-type{margin-top:0}
+.semakan-form .hint{font-size:.75rem;color:rgba(232,237,242,.5);margin-top:.35rem}
+.semakan-form input,.semakan-form select{
+  width:100%;padding:.85rem 1rem;border-radius:var(--radius-input);
+  border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);
+  color:#F2F5F9;font-family:inherit;font-size:.95rem;
+  transition:border-color .35s var(--ease),background .35s var(--ease);
+}
+.semakan-form input::placeholder{color:rgba(232,237,242,.4)}
+.semakan-form select option{color:var(--ink)}
+.semakan-form input:focus,.semakan-form select:focus{outline:2px solid var(--amber);outline-offset:2px;border-color:transparent}
+.jenis-toggle{display:flex;gap:.4rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:.35rem;width:max-content}
+.jenis-toggle button{
+  border:none;background:transparent;color:rgba(232,237,242,.65);
+  border-radius:999px;padding:.5rem 1.1rem;font-size:.85rem;font-weight:700;
+  transition:background .4s var(--ease),color .4s var(--ease);
+}
+.jenis-toggle button.active{background:var(--amber);color:var(--blue-950)}
+.btn-semak{
+  margin-top:1.6rem;width:100%;justify-content:center;
+  background:var(--amber);color:var(--blue-950);
+}
+.btn-semak .dot-ic{background:rgba(10,30,51,.14)}
+.btn-semak:hover{background:#D89A33}
+.semakan-result{min-height:320px;display:flex;flex-direction:column;justify-content:center}
+.result-empty{text-align:center;color:rgba(232,237,242,.55)}
+.result-empty i{font-size:2.6rem;color:rgba(232,237,242,.3);display:block;margin-bottom:.9rem}
+.result-error{
+  text-align:center;color:#F0D5C0;background:rgba(190,90,40,.12);
+  border:1px solid rgba(190,90,40,.3);border-radius:var(--radius-card);padding:1.6rem;
+}
+.result-error i{font-size:1.8rem;display:block;margin-bottom:.5rem}
+.result-card h3{color:#F3EBD8;font-size:1.3rem}
+.result-meta{display:flex;gap:.6rem;flex-wrap:wrap;margin:.7rem 0 1.3rem}
+.result-meta span{
+  font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:.3rem .8rem;color:rgba(232,237,242,.75);
+}
+.result-table{width:100%;border-collapse:collapse;font-size:.9rem}
+.result-table th{
+  text-align:left;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(232,237,242,.5);padding:.55rem .4rem;border-bottom:1px solid rgba(255,255,255,.14);
+}
+.result-table td{padding:.7rem .4rem;border-bottom:1px solid rgba(255,255,255,.07);color:#E8EDF2}
+.result-table td:last-child,.result-table th:last-child{text-align:right}
+.gred-pill{
+  display:inline-block;min-width:2.2rem;text-align:center;
+  background:rgba(196,134,31,.18);border:1px solid rgba(196,134,31,.4);
+  color:#EBC275;border-radius:999px;padding:.15rem .6rem;font-weight:800;font-size:.8rem;
+}
+.privacy-note{display:flex;gap:.6rem;align-items:flex-start;margin-top:1.4rem;font-size:.78rem;color:rgba(232,237,242,.5);max-width:46ch}
+.privacy-note i{color:var(--amber);margin-top:.1rem}
+
+/* ============================================================
+   KEMENJADIAN
+   ============================================================ */
+.stat-band{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:1rem;margin-top:2.8rem}
+.stat-tile{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);
+  padding:1.7rem;display:flex;flex-direction:column;justify-content:space-between;min-height:190px;
+}
+.stat-tile.lead{background:var(--blue-900);border-color:transparent;color:#EDF2F8}
+.stat-tile.lead .stat-label{color:rgba(237,242,248,.6)}
+.stat-tile.lead b{color:#F3EBD8}
+.stat-tile b{font-family:var(--font-display);font-size:clamp(2.2rem,4vw,3.1rem);font-weight:800;color:var(--blue-950);line-height:1}
+.stat-label{font-size:.85rem;color:var(--muted);font-weight:600}
+.stat-tile .stat-cap{font-size:.75rem;color:var(--muted);margin-top:.6rem}
+.stat-tile.lead .stat-cap{color:rgba(237,242,248,.55)}
+.pencapaian{margin-top:1.6rem;display:grid;gap:.8rem}
+.pencapaian-item{
+  display:flex;gap:1rem;align-items:center;background:var(--surface);
+  border:1px solid var(--line);border-radius:18px;padding:1rem 1.3rem;
+}
+.pencapaian-item i{color:var(--amber);font-size:1.3rem;flex:0 0 auto}
+.pencapaian-item p{font-size:.92rem}
+.pencapaian-item small{color:var(--muted);font-size:.78rem;display:block}
+
+/* ============================================================
+   KAJIAN & AMALAN
+   ============================================================ */
+.dua-lajur{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.5rem,4vw,3rem);align-items:start}
+.mini-head{display:flex;align-items:center;gap:.7rem;margin-bottom:1.4rem}
+.mini-head i{
+  width:42px;height:42px;border-radius:14px;background:var(--blue-100);
+  color:var(--blue-700);display:grid;place-items:center;font-size:1.2rem;
+}
+.mini-head h3{font-size:1.3rem}
+.kajian-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);
+  padding:1.5rem 1.6rem;margin-bottom:1rem;
+  transition:transform .5s var(--ease),box-shadow .5s var(--ease);
+}
+.kajian-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-soft)}
+.kajian-card h4{font-family:var(--font-display);font-size:1.02rem;margin-bottom:.4rem}
+.kajian-card p{font-size:.88rem;color:var(--muted)}
+.amalan-list{display:grid;gap:.9rem}
+.amalan-item{display:flex;gap:1rem;align-items:flex-start}
+.amalan-item .no{
+  font-family:var(--font-display);font-weight:800;color:var(--amber);
+  font-size:1.05rem;border:1.5px solid var(--amber-soft);border-radius:999px;
+  width:38px;height:38px;display:grid;place-items:center;flex:0 0 auto;background:#FCF7EC;
+}
+.amalan-item h4{font-size:.98rem;font-family:var(--font-display)}
+.amalan-item p{font-size:.86rem;color:var(--muted)}
+
+/* ============================================================
+   KENANGAN
+   ============================================================ */
+.galeri{display:grid;grid-template-columns:repeat(12,1fr);gap:1rem;margin-top:2.8rem}
+.galeri figure{
+  border-radius:20px;overflow:hidden;position:relative;margin:0;
+  border:1px solid var(--line);background:var(--blue-100);
+}
+.galeri img{width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease)}
+.galeri figure:hover img{transform:scale(1.045)}
+.galeri figcaption{
+  position:absolute;left:0;right:0;bottom:0;padding:2.2rem 1.1rem .85rem;
+  background:linear-gradient(transparent,rgba(10,30,51,.82));
+  color:#EDF2F8;font-size:.8rem;font-weight:600;
+}
+.g1{grid-column:span 7;aspect-ratio:16/10}
+.g2{grid-column:span 5;aspect-ratio:4/3.4}
+.g3{grid-column:span 4;aspect-ratio:1/1}
+.g4{grid-column:span 4;aspect-ratio:1/1}
+.g5{grid-column:span 4;aspect-ratio:1/1}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer{background:var(--blue-950);color:rgba(232,237,242,.7);padding:3.5rem 0 2.2rem;margin-top:2rem}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:2.5rem;align-items:start}
+.foot-brand{font-family:var(--font-display);font-weight:700;font-size:1.15rem;color:#F3EBD8;display:flex;align-items:center;gap:.6rem}
+.foot-brand .mark{width:34px;height:34px;border-radius:999px;background:rgba(255,255,255,.1);display:grid;place-items:center;font-size:.7rem;color:#F3EBD8}
+.foot-grid p{font-size:.85rem;margin-top:.9rem;max-width:34ch}
+.foot-grid h4{color:#F3EBD8;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:1rem}
+.foot-grid ul{list-style:none;display:grid;gap:.55rem}
+.foot-grid ul a{font-size:.88rem;transition:color .3s}
+.foot-grid ul a:hover{color:#EBC275}
+.visitor{
+  display:inline-flex;align-items:center;gap:.8rem;margin-top:.4rem;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+  border-radius:999px;padding:.6rem 1.2rem;
+}
+.visitor i{color:var(--amber);font-size:1.1rem}
+.visitor b{font-family:var(--font-display);color:#F3EBD8;font-size:1.05rem}
+.visitor span{font-size:.75rem}
+.foot-base{border-top:1px solid rgba(255,255,255,.08);margin-top:2.6rem;padding-top:1.4rem;font-size:.78rem;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+
+/* autolengkap nama pada borang semakan */
+.cadang-wrap{position:relative}
+.cadang-box{
+  position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:20;
+  list-style:none;margin:0;padding:.35rem;
+  background:#0F2440;border:1px solid rgba(255,255,255,.16);
+  border-radius:var(--radius-input);
+  box-shadow:0 18px 44px -14px rgba(0,0,0,.55);
+  max-height:230px;overflow-y:auto;
+}
+.cadang-box li{
+  padding:.55rem .8rem;border-radius:8px;font-size:.88rem;color:#E8EDF2;
+  cursor:pointer;
+}
+.cadang-box li:hover,.cadang-box li.aktif{background:rgba(196,134,31,.22);color:#F3EBD8}
+.cadang-box li mark{background:transparent;color:var(--amber);font-weight:800}
+
+/* foto profil (jika URL foto ditetapkan melalui admin) */
+.p-foto{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+/* amaran jika data.js tiada */
+.data-warn{
+  position:fixed;bottom:1.1rem;left:50%;transform:translateX(-50%);
+  z-index:200;background:#7E2E1B;color:#FBEDE6;
+  padding:.75rem 1.3rem;border-radius:14px;font-size:.85rem;font-weight:600;
+  box-shadow:0 12px 32px -12px rgba(0,0,0,.4);max-width:calc(100% - 2rem);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width:1023px){
+  .nav-links{display:none}
+  .nav-cta{display:none}
+  .burger{display:block}
+}
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:1fr;gap:2.5rem}
+  .portrait-shell{max-width:420px;transform:none}
+  .semakan-core{grid-template-columns:1fr}
+  .profil-grid{grid-template-columns:1fr}
+  .stat-band{grid-template-columns:1fr 1fr}
+  .stat-tile.lead{grid-column:span 2}
+  .dua-lajur{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:767px){
+  .wrap{padding-inline:1.1rem}
+  section{padding-block:3.6rem}
+  .hero{padding-top:5.5rem}
+  .bab-grid{grid-template-columns:1fr}
+  .notice{grid-template-columns:auto 1fr}
+  .notice-tag{display:none}
+  .stat-band{grid-template-columns:1fr}
+  .stat-tile.lead{grid-column:span 1}
+  .galeri{grid-template-columns:1fr}
+  .g1,.g2,.g3,.g4,.g5{grid-column:span 1;aspect-ratio:16/11}
+  .foot-grid{grid-template-columns:1fr}
+  .tabs{width:100%;justify-content:space-between}
+  .tab{padding:.55rem .9rem;font-size:.84rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= NAV ================= -->
+<nav class="nav" aria-label="Navigasi utama">
+  <a href="#utama" class="nav-brand"><span class="mark">HS</span><span id="navBrandName">Cikgu Halimatun</span></a>
+  <ul class="nav-links">
+    <li><a href="#profil">Profil</a></li>
+    <li><a href="#pengumuman">Pengumuman</a></li>
+    <li><a href="#bahan">Bahan</a></li>
+    <li><a href="#kemenjadian">Kemenjadian</a></li>
+    <li><a href="#kenangan">Kenangan</a></li>
+  </ul>
+  <a href="#semakan" class="nav-cta">Semak Keputusan <span class="dot-ic"><i class="ph ph-arrow-up-right"></i></span></a>
+  <button class="burger" id="burger" aria-label="Buka menu" aria-expanded="false"><span></span><span></span></button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <ul>
+    <li><a href="#profil">Profil</a></li>
+    <li><a href="#pengumuman">Pengumuman</a></li>
+    <li><a href="#bahan">Bahan Pembelajaran</a></li>
+    <li><a href="#semakan">Semak Keputusan</a></li>
+    <li><a href="#kemenjadian">Kemenjadian Murid</a></li>
+    <li><a href="#kenangan">Kenangan</a></li>
+  </ul>
+</div>
+
+<!-- ================= HERO ================= -->
+<header class="hero" id="utama">
+  <div class="wrap hero-grid">
+    <div class="reveal">
+      <span class="eyebrow"><i class="ph-fill ph-flask"></i>Portfolio Guru Sains</span>
+      <h1 id="heroNama">Halimatun Saadiah <em>binti Jusoh</em></h1>
+      <p class="hero-sub" id="heroSub">Nota, latihan, video dan semakan keputusan Sains KSSM untuk murid Tingkatan 1 hingga 5, semuanya di satu tempat.</p>
+      <div class="hero-ctas">
+        <a href="#bahan" class="btn btn-primary">Terokai Bahan <span class="dot-ic"><i class="ph ph-arrow-down"></i></span></a>
+        <a href="#semakan" class="btn btn-ghost">Semak Keputusan <span class="dot-ic"><i class="ph ph-magnifying-glass"></i></span></a>
+      </div>
+      <div class="hero-facts" id="heroFacts">
+        <div><b>Gred DG10</b><span>Pegawai Perkhidmatan Pendidikan</span></div>
+        <div><b>Ketua Panitia</b><span>Sains Teras</span></div>
+        <div><b>Tingkatan 1 - 5</b><span>Sains KSSM</span></div>
+      </div>
+    </div>
+    <div class="reveal" style="transition-delay:.15s">
+      <div class="portrait-shell">
+        <div class="portrait-core" id="portraitCore">
+          <span class="p-role">Cikgu</span>
+          <div>
+            <div class="initials">HS.</div>
+            <p class="p-note">Ruang untuk foto rasmi Cikgu. Gantikan kad ini dengan gambar sebenar.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ================= PROFIL ================= -->
+<section id="profil">
+  <div class="wrap">
+    <div class="reveal">
+      <h2>Profil Cikgu</h2>
+      <p class="section-sub">Latar belakang perkhidmatan dan pegangan sebagai pendidik.</p>
+    </div>
+    <div class="profil-grid">
+      <div class="profil-card reveal">
+        <h3><i class="ph-fill ph-identification-badge"></i>Maklumat Perkhidmatan</h3>
+        <div class="profil-rows" id="profilRows">
+          <div><span>Nama Penuh</span><b>Halimatun Saadiah binti Jusoh</b></div>
+          <div><span>Gred Jawatan</span><b>DG10</b></div>
+          <div><span>Jawatan</span><b>Ketua Panitia Sains Teras</b></div>
+          <div><span>Mata Pelajaran</span><b>Sains KSSM (T1 - T5)</b></div>
+          <div><span>Sekolah</span><b>SMA Majlis Agama Islam WPKL</b></div>
+        </div>
+      </div>
+      <div class="profil-bio reveal" style="transition-delay:.12s">
+        <p id="bio1">Cikgu Halimatun Saadiah merupakan guru Sains yang berkhidmat sebagai Ketua Panitia Sains Teras. Beliau mengajar mata pelajaran Sains KSSM dari Tingkatan 1 hingga Tingkatan 5 dan menyelaras perancangan panitia, bahan pembelajaran serta pentaksiran murid.</p>
+        <p id="bio2">Laman ini dibina sebagai rujukan sehenti untuk murid dan ibu bapa: bahan pembelajaran mengikut bab, pengumuman terkini, semakan keputusan peperiksaan dan PBD, serta rekod kemenjadian murid dalam mata pelajaran Sains.</p>
+        <div class="profil-quote" id="profilQuote">
+          "Setiap murid mampu berjaya dalam Sains apabila diberi bimbingan, latihan dan keyakinan yang secukupnya."
+          <small>Falsafah pengajaran Cikgu Halimatun</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PENGUMUMAN ================= -->
+<section id="pengumuman" style="padding-top:0">
+  <div class="wrap">
+    <div class="reveal">
+      <h2>Pengumuman</h2>
+      <p class="section-sub" id="pengumumanSub">Makluman terkini panitia dan kelas Sains. Paparan di bawah ialah contoh dan akan dikemas kini dari semasa ke semasa.</p>
+    </div>
+    <div class="notice-list" id="noticeList">
+      <article class="notice reveal">
+        <div class="notice-date"><b>28</b><span>Jul</span></div>
+        <div>
+          <h3>Nota Bab 4 Tingkatan 3 telah dimuat naik</h3>
+          <p>Nota Kereaktifan Logam kini tersedia di bahagian Bahan Pembelajaran. Sila muat turun sebelum kelas Isnin.</p>
+        </div>
+        <span class="notice-tag">Bahan Baru</span>
+      </article>
+      <article class="notice reveal" style="transition-delay:.08s">
+        <div class="notice-date"><b>21</b><span>Jul</span></div>
+        <div>
+          <h3>Kelas tambahan Sains Tingkatan 5</h3>
+          <p>Kelas fokus SPM bermula minggu hadapan setiap hari Rabu, 2:30 petang di Makmal Sains 2.</p>
+        </div>
+        <span class="notice-tag">Kelas</span>
+      </article>
+      <article class="notice reveal" style="transition-delay:.16s">
+        <div class="notice-date"><b>14</b><span>Jul</span></div>
+        <div>
+          <h3>Keputusan Ujian Pertengahan Tahun kini boleh disemak</h3>
+          <p>Murid boleh menyemak keputusan masing-masing di bahagian Semakan dengan memasukkan nama atau nombor kad pengenalan.</p>
+        </div>
+        <span class="notice-tag">Keputusan</span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= BAHAN PEMBELAJARAN ================= -->
+<section id="bahan">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="eyebrow"><i class="ph-fill ph-books"></i>Sains KSSM</span>
+      <h2 style="margin-top:1.1rem">Bahan Pembelajaran</h2>
+      <p class="section-sub">Pilih tingkatan, kemudian buka nota, latihan atau video bagi setiap bab. Bahan yang bertanda "akan datang" sedang disediakan.</p>
+    </div>
+    <div class="tabs reveal" role="tablist" aria-label="Pilih tingkatan" id="formTabs"></div>
+    <div class="bab-grid" id="babGrid"></div>
+    <p class="bahan-note reveal"><i class="ph-fill ph-video"></i><span>Setiap bab mempunyai ruangan pautan video. Video pengajaran Cikgu akan dipautkan terus dari YouTube atau Google Drive apabila dimuat naik.</span></p>
+  </div>
+</section>
+
+<!-- ================= SEMAKAN ================= -->
+<section class="semakan" id="semakan">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="eyebrow"><i class="ph-fill ph-lock-key"></i>Akses Peribadi</span>
+      <h2 style="margin-top:1.1rem">Semakan Keputusan &amp; PBD</h2>
+      <p class="section-sub">Keputusan peperiksaan dan Pentaksiran Bilik Darjah adalah peribadi. Setiap murid hanya boleh melihat rekod sendiri dengan memasukkan nama penuh atau nombor kad pengenalan.</p>
+    </div>
+    <div class="semakan-panel reveal">
+      <div class="semakan-core">
+        <form class="semakan-form" id="semakForm" novalidate>
+          <label for="jenisSemakan">Jenis Semakan</label>
+          <div class="jenis-toggle" id="jenisToggle" role="group" aria-label="Jenis semakan">
+            <button type="button" class="active" data-jenis="exam">Peperiksaan</button>
+            <button type="button" data-jenis="pbd">PBD</button>
+          </div>
+          <label for="inputNama">Nama Penuh atau No. Kad Pengenalan</label>
+          <div class="cadang-wrap">
+            <input type="text" id="inputNama" name="nama" placeholder="Cth: Nur Aisyah binti Roslan" autocomplete="off" required
+                   role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="cadangList">
+            <ul class="cadang-box" id="cadangList" role="listbox" hidden></ul>
+          </div>
+          <p class="hint" id="semakHint">Rekod contoh untuk dicuba: Nur Aisyah binti Roslan, Muhammad Danish bin Azhar, atau IC 080214-03-0912.</p>
+          <button type="submit" class="btn btn-semak">Semak Rekod Saya <span class="dot-ic"><i class="ph ph-magnifying-glass"></i></span></button>
+          <p class="privacy-note"><i class="ph-fill ph-shield-check"></i><span>Data murid tidak dipaparkan secara terbuka. Carian hanya memaparkan rekod milik nama atau IC yang dimasukkan.</span></p>
+        </form>
+        <div class="semakan-result" id="semakResult" aria-live="polite">
+          <div class="result-empty">
+            <i class="ph ph-student"></i>
+            <p>Masukkan nama atau nombor kad pengenalan<br>untuk memaparkan papan pemuka keputusan anda.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= KEMENJADIAN ================= -->
+<section id="kemenjadian">
+  <div class="wrap">
+    <div class="reveal">
+      <h2>Kemenjadian Murid</h2>
+      <p class="section-sub" id="kemenjadianSub">Pencapaian murid dalam mata pelajaran Sains. Angka di bawah ialah contoh paparan dan akan digantikan dengan data sebenar panitia.</p>
+    </div>
+    <div class="stat-band" id="statBand">
+      <div class="stat-tile lead reveal">
+        <span class="stat-label">Peratus Lulus Sains SPM 2025</span>
+        <b>92.3%</b>
+        <span class="stat-cap">Contoh paparan. Meningkat berbanding tahun sebelumnya.</span>
+      </div>
+      <div class="stat-tile reveal" style="transition-delay:.08s">
+        <span class="stat-label">Murid Cemerlang (A+/A/A-)</span>
+        <b>34</b>
+        <span class="stat-cap">Contoh paparan bagi kohort SPM 2025.</span>
+      </div>
+      <div class="stat-tile reveal" style="transition-delay:.16s">
+        <span class="stat-label">Gred Purata Mata Pelajaran</span>
+        <b>4.18</b>
+        <span class="stat-cap">Contoh paparan. GPMP Sains Teras.</span>
+      </div>
+    </div>
+    <div class="pencapaian" id="pencapaianList">
+      <div class="pencapaian-item reveal"><i class="ph-fill ph-trophy"></i><p>Johan Pertandingan Inovasi Sains Peringkat Daerah<small>Contoh pencapaian. Kemas kini dengan rekod sebenar murid.</small></p></div>
+      <div class="pencapaian-item reveal" style="transition-delay:.08s"><i class="ph-fill ph-medal"></i><p>Anugerah Panitia Terbaik Kluster Sains dan Matematik<small>Contoh pencapaian. Kemas kini dengan rekod sebenar panitia.</small></p></div>
+      <div class="pencapaian-item reveal" style="transition-delay:.16s"><i class="ph-fill ph-certificate"></i><p>100% murid melepasi tahap penguasaan minimum PBD Sains<small>Contoh pencapaian. Kemas kini mengikut data PBD terkini.</small></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= KAJIAN & AMALAN ================= -->
+<section id="kajian" style="padding-top:0">
+  <div class="wrap dua-lajur">
+    <div class="reveal">
+      <div class="mini-head"><i class="ph-fill ph-lightbulb"></i><h3>Kajian Tindakan &amp; Inovasi</h3></div>
+      <div id="kajianList">
+        <div class="kajian-card">
+          <h4>Ruangan kajian tindakan</h4>
+          <p>Laporan kajian tindakan Cikgu akan dikongsikan di sini, termasuk fokus kajian, dapatan dan penambahbaikan pengajaran yang dilaksanakan.</p>
+        </div>
+        <div class="kajian-card">
+          <h4>Ruangan projek inovasi</h4>
+          <p>Projek inovasi pengajaran dan pembelajaran Sains, sama ada di peringkat sekolah, daerah atau negeri, akan didokumenkan dalam ruangan ini.</p>
+        </div>
+      </div>
+    </div>
+    <div class="reveal" style="transition-delay:.1s">
+      <div class="mini-head"><i class="ph-fill ph-hand-heart"></i><h3>Amalan Baik Cikgu</h3></div>
+      <div class="amalan-list" id="amalanList">
+        <div class="amalan-item"><span class="no">1</span><div><h4>Nota dan latihan mengikut bab</h4><p>Setiap bab disusun dengan nota ringkas dan latihan berfokus supaya murid mudah mengulang kaji.</p></div></div>
+        <div class="amalan-item"><span class="no">2</span><div><h4>Video pengajaran susulan</h4><p>Murid yang tidak hadir atau ingin mengulang kaji boleh menonton semula video bagi setiap topik.</p></div></div>
+        <div class="amalan-item"><span class="no">3</span><div><h4>Pemantauan keputusan secara peribadi</h4><p>Setiap murid dapat menyemak perkembangan peperiksaan dan PBD sendiri tanpa didedahkan kepada murid lain.</p></div></div>
+        <div class="amalan-item"><span class="no">4</span><div><h4>Doa dan nilai murni dalam kelas</h4><p>Sesi pembelajaran dimulakan dengan doa dan diterapkan nilai murni selari dengan peranan sebagai Cikgu.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= KENANGAN ================= -->
+<section id="kenangan" style="padding-top:0">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="eyebrow"><i class="ph-fill ph-camera"></i>Galeri</span>
+      <h2 style="margin-top:1.1rem">Kenangan Bersama Murid</h2>
+      <p class="section-sub" id="kenanganSub">Koleksi gambar bersama murid-murid lama. Gambar di bawah ialah penanda tempat dan akan digantikan dengan foto sebenar.</p>
+    </div>
+    <div class="galeri" id="galeriGrid">
+      <figure class="g1 reveal"><img loading="lazy" src="https://picsum.photos/seed/kelas-sains-makmal/900/560" alt="Penanda tempat: aktiviti makmal bersama murid"><figcaption>Aktiviti amali di makmal Sains</figcaption></figure>
+      <figure class="g2 reveal" style="transition-delay:.08s"><img loading="lazy" src="https://picsum.photos/seed/hari-anugerah-sekolah/700/600" alt="Penanda tempat: hari anugerah sekolah"><figcaption>Hari Anugerah Cemerlang</figcaption></figure>
+      <figure class="g3 reveal"><img loading="lazy" src="https://picsum.photos/seed/karnival-sains/600/600" alt="Penanda tempat: karnival sains"><figcaption>Karnival Sains sekolah</figcaption></figure>
+      <figure class="g4 reveal" style="transition-delay:.08s"><img loading="lazy" src="https://picsum.photos/seed/lawatan-pusat-sains/600/600" alt="Penanda tempat: lawatan sambil belajar"><figcaption>Lawatan sambil belajar</figcaption></figure>
+      <figure class="g5 reveal" style="transition-delay:.16s"><img loading="lazy" src="https://picsum.photos/seed/graduasi-tingkatan-lima/600/600" alt="Penanda tempat: graduasi murid tingkatan lima"><figcaption>Graduasi Tingkatan 5</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand"><span class="mark">HS</span><span id="footBrandName">Cikgu Halimatun Saadiah</span></div>
+        <p id="footTentang">Portfolio dan pusat pembelajaran Sains KSSM Tingkatan 1 hingga 5 untuk murid, ibu bapa dan warga sekolah.</p>
+        <div class="visitor"><i class="ph-fill ph-users-three"></i><div><b id="visitorCount">0</b> <span>jumlah lawatan</span></div></div>
+      </div>
+      <div>
+        <h4>Pautan Laman</h4>
+        <ul>
+          <li><a href="#profil">Profil Cikgu</a></li>
+          <li><a href="#bahan">Bahan Pembelajaran</a></li>
+          <li><a href="#semakan">Semakan Keputusan</a></li>
+          <li><a href="#kemenjadian">Kemenjadian Murid</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Bahagian Lain</h4>
+        <ul>
+          <li><a href="#pengumuman">Pengumuman</a></li>
+          <li><a href="#kajian">Kajian Tindakan &amp; Inovasi</a></li>
+          <li><a href="#kajian">Amalan Baik</a></li>
+          <li><a href="#kenangan">Kenangan</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-base">
+      <span id="copyText">&copy; 2026 Cikgu Halimatun Saadiah binti Jusoh. Hak cipta terpelihara.</span>
+      <span id="footJawatan">Ketua Panitia Sains Teras</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   ENJIN PAPARAN
+   Semua kandungan laman datang daripada fail data.js
+   (window.SITE_DATA). Untuk mengedit kandungan, buka admin.html,
+   buat perubahan, muat turun data.js baharu dan gantikan fail
+   data.js di sebelah fail ini.
+   ============================================================ */
+const D = window.SITE_DATA || null;
+
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => (
+  { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]
+));
+const $id = id => document.getElementById(id);
+
+if (!D) {
+  const w = document.createElement("div");
+  w.className = "data-warn";
+  w.textContent = "Fail data.js tidak dijumpai. Kandungan laman tidak dapat dipaparkan sepenuhnya.";
+  document.body.appendChild(w);
+}
+
+if (D) {
+  const p = D.profil, t = D.teks;
+
+  /* nama & jenama */
+  document.title = `${p.gelaran} ${p.namaPenuh} | Portfolio Guru Sains`;
+  $id("navBrandName").textContent = `${p.gelaran} ${p.namaUtama.split(" ")[0]}`;
+  document.querySelectorAll(".mark").forEach(m => { m.textContent = p.inisial.replace(/\./g, ""); });
+
+  /* hero */
+  $id("heroNama").innerHTML = `${esc(p.namaUtama)} <em>${esc(p.namaItalic)}</em>`;
+  $id("heroSub").textContent = t.heroSub;
+  $id("heroFacts").innerHTML = (D.heroFacts || []).map(f =>
+    `<div><b>${esc(f.tajuk)}</b><span>${esc(f.huraian)}</span></div>`).join("");
+  if (p.fotoUrl) {
+    $id("portraitCore").innerHTML =
+      `<img class="p-foto" src="${esc(p.fotoUrl)}" alt="Foto ${esc(p.gelaran)} ${esc(p.namaPenuh)}">`;
+  } else {
+    $id("portraitCore").innerHTML = `
+      <span class="p-role">${esc(p.gelaran)}</span>
+      <div>
+        <div class="initials">${esc(p.inisial)}</div>
+        <p class="p-note">Ruang untuk foto rasmi ${esc(p.gelaran)}. Tetapkan URL foto melalui admin.html.</p>
+      </div>`;
+  }
+
+  /* profil */
+  $id("profilRows").innerHTML = [
+    ["Nama Penuh", p.namaPenuh],
+    ["Gred Jawatan", p.gred],
+    ["Jawatan", p.jawatan],
+    ["Mata Pelajaran", p.mataPelajaran],
+    ["Sekolah", p.sekolah],
+  ].map(([k, v]) => `<div><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join("");
+  $id("bio1").textContent = p.bio1;
+  $id("bio2").textContent = p.bio2;
+  $id("profilQuote").innerHTML = `"${esc(p.quote)}"<small>${esc(p.quoteLabel)}</small>`;
+
+  /* pengumuman (disusun tarikh terkini dahulu) */
+  const BULAN = ["Jan", "Feb", "Mac", "Apr", "Mei", "Jun", "Jul", "Ogo", "Sep", "Okt", "Nov", "Dis"];
+  $id("pengumumanSub").textContent = t.pengumumanSub;
+  const senaraiPengumuman = [...(D.pengumuman || [])].sort((a, b) => String(b.tarikh).localeCompare(String(a.tarikh)));
+  $id("noticeList").innerHTML = senaraiPengumuman.map((n, i) => {
+    const d = new Date(n.tarikh + "T00:00:00");
+    const hari = isNaN(d) ? "" : d.getDate();
+    const bulan = isNaN(d) ? "" : BULAN[d.getMonth()];
+    return `
+    <article class="notice reveal" style="transition-delay:${Math.min(i, 4) * 0.08}s">
+      <div class="notice-date"><b>${hari}</b><span>${bulan}</span></div>
+      <div><h3>${esc(n.tajuk)}</h3><p>${esc(n.teks)}</p></div>
+      ${n.tag ? `<span class="notice-tag">${esc(n.tag)}</span>` : ""}
+    </article>`;
+  }).join("");
+
+  /* semakan */
+  $id("semakHint").textContent = t.semakHint;
+
+  /* kemenjadian */
+  $id("kemenjadianSub").textContent = t.kemenjadianSub;
+  $id("statBand").innerHTML = ((D.kemenjadian || {}).stats || []).map((s, i) => `
+    <div class="stat-tile${i === 0 ? " lead" : ""} reveal" style="transition-delay:${(i % 3) * 0.08}s">
+      <span class="stat-label">${esc(s.label)}</span>
+      <b>${esc(s.nilai)}</b>
+      ${s.cap ? `<span class="stat-cap">${esc(s.cap)}</span>` : ""}
+    </div>`).join("");
+  const IKON_PENCAPAIAN = ["ph-trophy", "ph-medal", "ph-certificate", "ph-star"];
+  $id("pencapaianList").innerHTML = ((D.kemenjadian || {}).pencapaian || []).map((x, i) => `
+    <div class="pencapaian-item reveal" style="transition-delay:${(i % 3) * 0.08}s">
+      <i class="ph-fill ${IKON_PENCAPAIAN[i % IKON_PENCAPAIAN.length]}"></i>
+      <p>${esc(x.teks)}${x.nota ? `<small>${esc(x.nota)}</small>` : ""}</p>
+    </div>`).join("");
+
+  /* kajian & amalan */
+  $id("kajianList").innerHTML = (D.kajian || []).map(k => `
+    <div class="kajian-card"><h4>${esc(k.tajuk)}</h4><p>${esc(k.teks)}</p></div>`).join("");
+  $id("amalanList").innerHTML = (D.amalan || []).map((a, i) => `
+    <div class="amalan-item"><span class="no">${i + 1}</span><div><h4>${esc(a.tajuk)}</h4><p>${esc(a.teks)}</p></div></div>`).join("");
+
+  /* kenangan */
+  $id("kenanganSub").textContent = t.kenanganSub;
+  const KELAS_G = ["g1", "g2", "g3", "g4", "g5"];
+  $id("galeriGrid").innerHTML = (D.kenangan || []).map((g, i) => `
+    <figure class="${KELAS_G[i % 5]} reveal" style="transition-delay:${(i % 3) * 0.08}s">
+      <img loading="lazy" src="${esc(g.img)}" alt="${esc(g.kapsyen)}">
+      <figcaption>${esc(g.kapsyen)}</figcaption>
+    </figure>`).join("");
+
+  /* footer */
+  $id("footBrandName").textContent = `${p.gelaran} ${p.namaUtama}`;
+  $id("footTentang").textContent = t.footerTentang;
+  $id("copyText").innerHTML = `&copy; ${new Date().getFullYear()} ${esc(p.gelaran)} ${esc(p.namaPenuh)}. Hak cipta terpelihara.`;
+  $id("footJawatan").textContent = p.jawatan;
+}
+
+/* ---------- Nav: burger + mobile menu ---------- */
+const burger = document.getElementById("burger");
+const mobileMenu = document.getElementById("mobileMenu");
+burger.addEventListener("click", () => {
+  const open = mobileMenu.classList.toggle("open");
+  burger.classList.toggle("open", open);
+  burger.setAttribute("aria-expanded", String(open));
+  document.body.style.overflow = open ? "hidden" : "";
+});
+mobileMenu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => {
+  mobileMenu.classList.remove("open");
+  burger.classList.remove("open");
+  burger.setAttribute("aria-expanded", "false");
+  document.body.style.overflow = "";
+}));
+
+/* ---------- Reveal on scroll ---------- */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+}, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
+document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+
+/* ---------- Bahan: tabs + chapter cards ---------- */
+const formTabs = document.getElementById("formTabs");
+const babGrid = document.getElementById("babGrid");
+
+function chip(url, ikon, label) {
+  if (url) {
+    return `<a class="chip" href="${esc(url)}" target="_blank" rel="noopener"><i class="ph-fill ${ikon}"></i>${label}</a>`;
+  }
+  return `<span class="chip pending" title="Bahan ini akan dimuat naik"><i class="ph ${ikon}"></i>${label} (akan datang)</span>`;
+}
+
+function renderForm(idx) {
+  const data = D.bahan[idx];
+  babGrid.innerHTML = data.bab.map((b, i) => `
+    <article class="bab-card">
+      <div class="bab-head"><span class="bab-num">${String(i + 1).padStart(2, "0")}</span><h3>${esc(b.t)}</h3></div>
+      <div class="chips">
+        ${chip(b.nota, "ph-note", "Nota")}
+        ${chip(b.latihan, "ph-pencil-simple-line", "Latihan")}
+        ${chip(b.video, "ph-play-circle", "Video")}
+      </div>
+    </article>`).join("");
+}
+
+if (D && Array.isArray(D.bahan)) {
+  D.bahan.forEach((f, i) => {
+    const btn = document.createElement("button");
+    btn.className = "tab" + (i === 0 ? " active" : "");
+    btn.setAttribute("role", "tab");
+    btn.setAttribute("aria-selected", i === 0 ? "true" : "false");
+    btn.textContent = f.label;
+    btn.addEventListener("click", () => {
+      formTabs.querySelectorAll(".tab").forEach(t => { t.classList.remove("active"); t.setAttribute("aria-selected", "false"); });
+      btn.classList.add("active");
+      btn.setAttribute("aria-selected", "true");
+      renderForm(i);
+    });
+    formTabs.appendChild(btn);
+  });
+  renderForm(0);
+}
+
+/* ---------- Semakan: private lookup ---------- */
+let jenisSemakan = "exam";
+const jenisToggle = document.getElementById("jenisToggle");
+jenisToggle.querySelectorAll("button").forEach(b => b.addEventListener("click", () => {
+  jenisToggle.querySelectorAll("button").forEach(x => x.classList.remove("active"));
+  b.classList.add("active");
+  jenisSemakan = b.dataset.jenis;
+}));
+
+const semakForm = document.getElementById("semakForm");
+const semakResult = document.getElementById("semakResult");
+
+function normalkan(s) { return s.trim().toLowerCase().replace(/\s+/g, " "); }
+
+/* Jika D.tetapan.apiUrl ditetapkan, semakan dibuat terhadap API
+   SQLite (api/semak.php). Jika tidak, atau API tidak dapat
+   dihubungi, rekod dalam data.js digunakan sebagai sandaran. */
+const btnSemak = semakForm.querySelector(".btn-semak");
+
+semakForm.addEventListener("submit", async e => {
+  e.preventDefault();
+  const q = normalkan(document.getElementById("inputNama").value);
+  if (!q) {
+    semakResult.innerHTML = `<div class="result-error"><i class="ph ph-warning-circle"></i>Sila masukkan nama penuh atau nombor kad pengenalan anda dahulu.</div>`;
+    return;
+  }
+
+  let rekod = null;
+  let gunaApi = false;
+  const apiUrl = D && D.tetapan && D.tetapan.apiUrl;
+
+  if (apiUrl) {
+    const labelAsal = btnSemak.innerHTML;
+    btnSemak.disabled = true;
+    btnSemak.innerHTML = `Menyemak... <span class="dot-ic"><i class="ph ph-circle-notch"></i></span>`;
+    try {
+      const r = await fetch(String(apiUrl).replace(/\/+$/, "") + "/semak.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ q }),
+      });
+      const j = await r.json().catch(() => null);
+      gunaApi = true;
+      if (j && j.ok && j.rekod) rekod = j.rekod;
+    } catch (err) {
+      gunaApi = false; /* API tidak dapat dihubungi; guna data tempatan */
+    }
+    btnSemak.disabled = false;
+    btnSemak.innerHTML = labelAsal;
+  }
+
+  if (!gunaApi) {
+    rekod = ((D && D.rekod) || []).find(r =>
+      normalkan(r.nama) === q || String(r.ic).replace(/-/g, "") === q.replace(/-/g, "")
+    );
+  }
+
+  if (!rekod) {
+    semakResult.innerHTML = `<div class="result-error"><i class="ph ph-warning-circle"></i>Tiada rekod dijumpai untuk maklumat yang dimasukkan.<br><small>Pastikan ejaan nama penuh atau nombor IC adalah tepat, kemudian cuba lagi.</small></div>`;
+    return;
+  }
+  const tagContoh = rekod.contoh ? `<span>Rekod contoh</span>` : "";
+  if (jenisSemakan === "exam") {
+    semakResult.innerHTML = `
+      <div class="result-card">
+        <h3>${esc(rekod.nama)}</h3>
+        <div class="result-meta"><span>${esc(rekod.tingkatan)}</span><span>${esc(rekod.kelas)}</span><span>Sains</span>${tagContoh}</div>
+        <table class="result-table">
+          <thead><tr><th>Peperiksaan</th><th>Markah</th><th>Gred</th></tr></thead>
+          <tbody>
+            ${(rekod.exam || []).map(x => `<tr><td>${esc(x.nama)}</td><td>${esc(x.markah)}/100</td><td><span class="gred-pill">${esc(x.gred)}</span></td></tr>`).join("")}
+          </tbody>
+        </table>
+      </div>`;
+  } else {
+    semakResult.innerHTML = `
+      <div class="result-card">
+        <h3>${esc(rekod.nama)}</h3>
+        <div class="result-meta"><span>${esc(rekod.tingkatan)}</span><span>${esc(rekod.kelas)}</span><span>PBD Sains</span>${tagContoh}</div>
+        <table class="result-table">
+          <thead><tr><th>Bab</th><th>Tahap Penguasaan</th></tr></thead>
+          <tbody>
+            ${(rekod.pbd || []).map(x => `<tr><td>${esc(x.bab)}</td><td><span class="gred-pill">TP ${esc(x.tp)}</span></td></tr>`).join("")}
+          </tbody>
+        </table>
+      </div>`;
+  }
+});
+
+/* ---------- Autolengkap nama (cadangan carian) ----------
+   Guardrail privasi: hanya selepas 4 aksara, maksimum 5 nama,
+   dan boleh dimatikan melalui tetapan "cadanganNama". */
+const inputNama = document.getElementById("inputNama");
+const cadangList = document.getElementById("cadangList");
+let cadangAktif = -1;
+let cadangAbort = null;
+let cadangTimer = null;
+
+function tutupCadang() {
+  cadangList.hidden = true;
+  cadangList.innerHTML = "";
+  cadangAktif = -1;
+  inputNama.setAttribute("aria-expanded", "false");
+}
+
+function paparCadang(senarai, q) {
+  if (!senarai.length) { tutupCadang(); return; }
+  const qEsc = q.trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const re = new RegExp("(" + qEsc.split(/\s+/).join("|") + ")", "gi");
+  cadangList.innerHTML = senarai.map(n =>
+    `<li role="option">${esc(n).replace(re, "<mark>$1</mark>")}</li>`).join("");
+  cadangList.hidden = false;
+  cadangAktif = -1;
+  inputNama.setAttribute("aria-expanded", "true");
+}
+
+async function cariCadang() {
+  const q = inputNama.value.trim();
+  const digitSahaja = /^\d+$/.test(q.replace(/[\s-]/g, ""));
+  if (!D || q.length < 4 || digitSahaja || (D.tetapan && D.tetapan.cadanganNama === false)) {
+    tutupCadang();
+    return;
+  }
+  const apiUrl = D.tetapan && D.tetapan.apiUrl;
+  let senarai = [];
+  if (apiUrl) {
+    try {
+      if (cadangAbort) cadangAbort.abort();
+      cadangAbort = new AbortController();
+      const r = await fetch(String(apiUrl).replace(/\/+$/, "") + "/cadang.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ q }),
+        signal: cadangAbort.signal,
+      });
+      const j = await r.json();
+      if (j && j.ok) senarai = j.nama || [];
+    } catch (err) {
+      return; /* dibatalkan / API tiada: diam sahaja */
+    }
+  } else {
+    const nq = normalkan(q);
+    senarai = (D.rekod || []).map(r => r.nama)
+      .filter(n => normalkan(n).includes(nq)).slice(0, 5);
+  }
+  if (inputNama.value.trim() !== q) return; /* input dah berubah */
+  paparCadang(senarai, q);
+}
+
+inputNama.addEventListener("input", () => {
+  clearTimeout(cadangTimer);
+  cadangTimer = setTimeout(cariCadang, 220);
+});
+
+function pilihCadang(li) {
+  inputNama.value = li.textContent;
+  tutupCadang();
+  inputNama.focus();
+}
+
+inputNama.addEventListener("keydown", e => {
+  if (cadangList.hidden) return;
+  const items = [...cadangList.children];
+  if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+    e.preventDefault();
+    cadangAktif = e.key === "ArrowDown"
+      ? (cadangAktif + 1) % items.length
+      : (cadangAktif - 1 + items.length) % items.length;
+    items.forEach((el, i) => el.classList.toggle("aktif", i === cadangAktif));
+    items[cadangAktif].scrollIntoView({ block: "nearest" });
+  } else if (e.key === "Enter") {
+    if (cadangAktif >= 0) {
+      e.preventDefault();
+      pilihCadang(items[cadangAktif]);
+    } else {
+      tutupCadang();
+    }
+  } else if (e.key === "Escape") {
+    tutupCadang();
+  }
+});
+
+cadangList.addEventListener("mousedown", e => {
+  const li = e.target.closest("li");
+  if (li) { e.preventDefault(); pilihCadang(li); }
+});
+document.addEventListener("click", e => {
+  if (!e.target.closest(".cadang-wrap")) tutupCadang();
+});
+
+/* ---------- Visitor counter (paparan tempatan) ----------
+   Nota: kiraan ini disimpan pada pelayar pengguna sahaja.
+   Untuk kiraan sebenar merentas semua pelawat, sambungkan
+   perkhidmatan seperti Google Analytics atau widget kaunter. */
+(function () {
+  const KEY = "uh_lawatan";
+  let n = parseInt(localStorage.getItem(KEY) || "0", 10) + 1;
+  localStorage.setItem(KEY, String(n));
+  const base = (D && D.tetapan && D.tetapan.kaunterMula) || 0; // nombor permulaan daripada data.js
+  document.getElementById("visitorCount").textContent = (base + n).toLocaleString("ms-MY");
+})();
+</script>
+</body>
+</html>

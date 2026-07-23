@@ -1,0 +1,29 @@
+# ============================================================
+# KONFIGURASI CLOUDFLARE WORKER
+# Selepas menjalankan "wrangler d1 create halimatun-db",
+# GANTIKAN nilai database_id di bawah dengan ID yang diberi.
+# ============================================================
+name = "halimatun-api"
+main = "src/worker.js"
+compatibility_date = "2026-07-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "halimatun-db"
+database_id = "GANTI-DENGAN-DATABASE-ID-ANDA"
+
+# ============================================================
+# GITHUB (pilihan) - membolehkan butang "Simpan" dalam admin.html
+# menulis data.js terus ke repo GitHub Pages, tanpa Muat Turun.
+# Nilai di bawah TIDAK sensitif (nama pengguna/repo sahaja), boleh
+# commit ke repo. Kunci sebenar (GITHUB_TOKEN) mesti ditetapkan
+# berasingan sebagai secret - JANGAN letak token di sini:
+#   npx wrangler secret put GITHUB_TOKEN
+# Jika GITHUB_TOKEN tidak ditetapkan, butang Simpan akan jatuh
+# balik kepada Muat Turun data.js seperti biasa.
+# ============================================================
+[vars]
+GITHUB_OWNER = "GANTI-DENGAN-USERNAME-GITHUB"
+GITHUB_REPO = "GANTI-DENGAN-NAMA-REPO"
+GITHUB_BRANCH = "main"
+GITHUB_PATH = "data.js"
