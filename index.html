@@ -205,6 +205,17 @@ section{padding-block:clamp(4.5rem,9vw,7.5rem)}
   content:"";position:absolute;inset:0;pointer-events:none;
   background:radial-gradient(380px 300px at 85% 0%,rgba(196,134,31,.28),transparent 60%);
 }
+/* label monogram + sub-tajuk bertindih atas foto, dengan gradien biru bawah */
+.p-photo-overlay{
+  position:absolute;left:0;right:0;bottom:0;z-index:1;
+  padding:1.5rem 1.6rem 1.7rem;
+  background:linear-gradient(180deg,transparent,rgba(10,30,51,.5) 45%,rgba(10,30,51,.92));
+}
+.p-photo-overlay .p-mono{
+  font-family:var(--font-display);font-weight:800;
+  font-size:clamp(2.4rem,4.4vw,3.1rem);letter-spacing:-.03em;color:#F3EBD8;line-height:1;
+}
+.p-photo-overlay .p-sub{font-size:.85rem;color:rgba(237,242,248,.82);margin-top:.35rem}
 .hero-facts{display:flex;gap:1.6rem;margin-top:2.6rem;flex-wrap:wrap}
 .hero-facts div{border-left:2px solid var(--amber);padding-left:.9rem}
 .hero-facts b{font-family:var(--font-display);font-size:1.05rem;display:block;color:var(--blue-950)}
@@ -862,8 +873,12 @@ if (D) {
   $id("heroFacts").innerHTML = (D.heroFacts || []).map(f =>
     `<div><b>${esc(f.tajuk)}</b><span>${esc(f.huraian)}</span></div>`).join("");
   if (p.fotoUrl) {
-    $id("portraitCore").innerHTML =
-      `<img class="p-foto" src="${esc(p.fotoUrl)}" alt="Foto ${esc(p.gelaran)} ${esc(p.namaPenuh)}">`;
+    $id("portraitCore").innerHTML = `
+      <img class="p-foto" src="${esc(p.fotoUrl)}" alt="Foto ${esc(p.gelaran)} ${esc(p.namaPenuh)}">
+      <div class="p-photo-overlay">
+        <div class="p-mono">${esc(p.inisial)}</div>
+        <p class="p-sub">${esc(p.jawatan)}</p>
+      </div>`;
   } else {
     $id("portraitCore").innerHTML = `
       <span class="p-role">${esc(p.gelaran)}</span>
