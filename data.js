@@ -428,6 +428,26 @@ window.SITE_DATA = {
         { "label": "SMKA", "url": "https://forms.gle/95bRgg1U1FVbd4xy6" },
         { "label": "Kedah", "url": "https://forms.gle/D76ZgAoqFKNy58zp6" }
       ]
+    },
+    {
+      "tajuk": "Soalan Percubaan Sains Negeri 2021",
+      "nota": "Set soalan percubaan Sains peringkat negeri tahun 2021. Klik untuk menjawab dalam bentuk Google Form.",
+      "item": [
+        { "label": "Johor", "url": "https://forms.gle/hzLtMzUWJc1Cx2wH9" },
+        { "label": "Kelantan", "url": "https://forms.gle/amRCBkPjPAXPmhNh6" },
+        { "label": "Negeri Sembilan", "url": "https://forms.gle/7YR9yGBgq7ckMwsh9" },
+        { "label": "Pahang", "url": "https://forms.gle/dxb9d3fciqVdR3qQ9" },
+        { "label": "Selangor", "url": "https://forms.gle/4DRV3yoXdo9bwadT9" },
+        { "label": "Terengganu", "url": "https://forms.gle/8uTogMnWYq1iRHAU6" }
+      ]
+    },
+    {
+      "tajuk": "Modul & Latihan Tambahan",
+      "nota": "Modul latihan tambahan untuk pengukuhan. Klik untuk menjawab dalam bentuk Google Form.",
+      "item": [
+        { "label": "MPP3 (Terengganu)", "url": "https://forms.gle/UcXq5KNj66vNgB2dA" },
+        { "label": "Modul Sains SMKA Set 2", "url": "https://forms.gle/Vjv8Pf5WS54cR1nq5" }
+      ]
     }
   ],
   "kemenjadian": {
