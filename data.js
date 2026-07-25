@@ -409,6 +409,7 @@ window.SITE_DATA = {
   ],
   "bankSoalan": [
     {
+      "tab": "SPM 2024",
       "tajuk": "Soalan Kertas 1 Percubaan Negeri SPM 2024",
       "nota": "Set soalan percubaan Sains Kertas 1 daripada pelbagai negeri. Klik untuk menjawab dalam bentuk Google Form.",
       "item": [
@@ -430,6 +431,7 @@ window.SITE_DATA = {
       ]
     },
     {
+      "tab": "Negeri 2021",
       "tajuk": "Soalan Percubaan Sains Negeri 2021",
       "nota": "Set soalan percubaan Sains peringkat negeri tahun 2021. Klik untuk menjawab dalam bentuk Google Form.",
       "item": [
@@ -442,6 +444,7 @@ window.SITE_DATA = {
       ]
     },
     {
+      "tab": "Modul",
       "tajuk": "Modul & Latihan Tambahan",
       "nota": "Modul latihan tambahan untuk pengukuhan. Klik untuk menjawab dalam bentuk Google Form.",
       "item": [
