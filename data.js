@@ -407,6 +407,29 @@ window.SITE_DATA = {
       ]
     }
   ],
+  "bankSoalan": [
+    {
+      "tajuk": "Soalan Kertas 1 Percubaan Negeri SPM 2024",
+      "nota": "Set soalan percubaan Sains Kertas 1 daripada pelbagai negeri. Klik untuk menjawab dalam bentuk Google Form.",
+      "item": [
+        { "label": "SBP 2024", "url": "https://forms.gle/GfdYaaCqEtPXVSM9A" },
+        { "label": "Pulau Pinang Set 1", "url": "https://forms.gle/4aHCz5VC6Qh8yp7H6" },
+        { "label": "Pulau Pinang Set 2", "url": "https://forms.gle/MWdDGvXqYv4D7p7i9" },
+        { "label": "Perlis", "url": "https://forms.gle/ysw7K7cVmksZu8Ja6" },
+        { "label": "Perak", "url": "https://forms.gle/1fDH6D8zGw48srk47" },
+        { "label": "Selangor Set 1", "url": "https://forms.gle/RUaMY13216yjqtcx8" },
+        { "label": "Selangor Set 2", "url": "https://forms.gle/vnKKTRtAG7d4cJLN6" },
+        { "label": "Melaka", "url": "https://forms.gle/n1zy1ScguCre8QAf6" },
+        { "label": "Negeri Sembilan", "url": "https://forms.gle/LfNYsLpdrvMwr2nK6" },
+        { "label": "Kulai, Johor", "url": "https://forms.gle/FiaJpL8NTs6YbSGt9" },
+        { "label": "Sabah", "url": "https://forms.gle/KXhMo7j4xtZKFLTx9" },
+        { "label": "Kelantan", "url": "https://forms.gle/Xt2BaEmEynMUYELu7" },
+        { "label": "Pahang", "url": "https://forms.gle/ECkBNE4DUT84SSco9" },
+        { "label": "SMKA", "url": "https://forms.gle/95bRgg1U1FVbd4xy6" },
+        { "label": "Kedah", "url": "https://forms.gle/D76ZgAoqFKNy58zp6" }
+      ]
+    }
+  ],
   "kemenjadian": {
     "stats": [
       {

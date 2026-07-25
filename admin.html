@@ -194,6 +194,7 @@ let sumberDraf = false;
     if (!state.tetapan) state.tetapan = {};
     if (state.tetapan.apiUrl === undefined) state.tetapan.apiUrl = "";
     if (state.tetapan.cadanganNama === undefined) state.tetapan.cadanganNama = true;
+    if (!Array.isArray(state.bankSoalan)) state.bankSoalan = [];
   }
   if (!state) {
     shell.innerHTML = `<div class="fatal" style="grid-column:1/-1">
@@ -275,6 +276,7 @@ const TAB = [
   { id: "teks", label: "Teks Laman", ikon: "ph-text-aa" },
   { id: "pengumuman", label: "Pengumuman", ikon: "ph-megaphone" },
   { id: "bahan", label: "Bahan Pembelajaran", ikon: "ph-books" },
+  { id: "soalan", label: "Bank Soalan", ikon: "ph-exam" },
   { id: "kemenjadian", label: "Kemenjadian", ikon: "ph-chart-line-up" },
   { id: "kajianamalan", label: "Kajian & Amalan", ikon: "ph-lightbulb" },
   { id: "kenangan", label: "Kenangan", ikon: "ph-camera" },
@@ -469,6 +471,27 @@ const LUKIS = {
       </div>`;
   },
 
+  soalan() {
+    return `
+      <h2>Bank Soalan</h2>
+      <p class="desc">Set soalan percubaan / latihan yang dipaparkan di laman. Setiap set mempunyai tajuk dan senarai pautan (cth: Google Form). Tampal pautan penuh bagi setiap item.</p>
+      ${state.bankSoalan.map((s, i) => `
+        <div class="card">
+          <div class="card-head"><h3>Set ${i + 1}</h3>${btnBuang("buangSet", i)}</div>
+          ${fTeks("Tajuk Set", `bankSoalan.${i}.tajuk`, { placeholder: "cth: Soalan Kertas 1 Percubaan Negeri SPM 2024" })}
+          ${fArea("Nota / Keterangan (pilihan)", `bankSoalan.${i}.nota`, { rows: 2 })}
+          <div class="f"><label class="f-label">Pautan Soalan</label></div>
+          ${(s.item || []).map((x, j) => `
+            <div class="grid2" style="grid-template-columns:1fr 1.5fr auto;align-items:end;margin-bottom:.6rem">
+              ${fTeks("Label", `bankSoalan.${i}.item.${j}.label`, { placeholder: "cth: Selangor Set 1" })}
+              ${fTeks("Pautan (URL)", `bankSoalan.${i}.item.${j}.url`, { jenis: "url", placeholder: "https://forms.gle/..." })}
+              <div class="f">${btnBuang("buangItemSoalan", i + "," + j)}</div>
+            </div>`).join("")}
+          <button class="add-btn" data-act="tambahItemSoalan" data-arg="${i}" style="margin-top:.4rem"><i class="ph ph-plus-circle"></i>Tambah pautan</button>
+        </div>`).join("")}
+      ${btnTambah("tambahSet", "Tambah set soalan baharu")}`;
+  },
+
   kenangan() {
     return `
       <h2>Kenangan</h2>
@@ -646,6 +669,10 @@ const TINDAKAN = {
   buangAmalan(i) { state.amalan.splice(i, 1); },
   tambahKenangan() { state.kenangan.unshift({ img: "", kapsyen: "" }); },
   buangKenangan(i) { state.kenangan.splice(i, 1); },
+  tambahSet() { state.bankSoalan.push({ tajuk: "", nota: "", item: [{ label: "", url: "" }] }); },
+  buangSet(i) { state.bankSoalan.splice(i, 1); },
+  tambahItemSoalan(i) { state.bankSoalan[i].item.push({ label: "", url: "" }); },
+  buangItemSoalan(arg) { const [i, j] = arg.split(","); state.bankSoalan[i].item.splice(j, 1); },
   tambahMurid() {
     state.rekod.unshift({ nama: "", ic: "", tingkatan: "", kelas: "", contoh: false,
       exam: [{ nama: "Ujian 1", markah: "", gred: "" }],

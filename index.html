@@ -308,6 +308,23 @@ section{padding-block:clamp(4.5rem,9vw,7.5rem)}
 }
 .bahan-note i{color:var(--amber);margin-top:.15rem}
 
+/* ---------- Bank Soalan ---------- */
+.soalan-set{margin-top:2.4rem;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-card);padding:1.6rem 1.7rem;box-shadow:var(--shadow-soft)}
+.soalan-set h3{font-size:1.12rem;display:flex;align-items:center;gap:.6rem}
+.soalan-set h3 i{color:var(--amber)}
+.soalan-set .set-nota{color:var(--muted);font-size:.88rem;margin:.5rem 0 1.2rem;max-width:70ch}
+.soalan-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.7rem}
+.soalan-link{
+  display:flex;align-items:center;justify-content:space-between;gap:.6rem;
+  border:1px solid rgba(22,34,47,.14);border-radius:14px;
+  padding:.75rem 1rem;font-size:.9rem;font-weight:600;color:var(--blue-950);background:transparent;
+  transition:background .4s var(--ease),border-color .4s var(--ease),transform .4s var(--ease);
+}
+.soalan-link i{color:var(--amber);font-size:1rem;flex:0 0 auto;transition:transform .4s var(--ease)}
+.soalan-link:hover{background:var(--blue-100);border-color:var(--blue-700);transform:translateY(-2px)}
+.soalan-link:hover i{transform:translate(2px,-2px)}
+.soalan-kosong{margin-top:2.4rem;color:var(--muted);font-size:.9rem}
+
 /* ============================================================
    SEMAKAN : deep green band
    ============================================================ */
@@ -552,8 +569,8 @@ footer{background:var(--blue-950);color:rgba(232,237,242,.7);padding:3.5rem 0 2.
   <a href="#utama" class="nav-brand"><span class="mark">HS</span><span id="navBrandName">Cikgu Halimatun</span></a>
   <ul class="nav-links">
     <li><a href="#profil">Profil</a></li>
-    <li><a href="#pengumuman">Pengumuman</a></li>
     <li><a href="#bahan">Bahan</a></li>
+    <li><a href="#soalan">Soalan</a></li>
     <li><a href="#kemenjadian">Kemenjadian</a></li>
     <li><a href="#kenangan">Kenangan</a></li>
   </ul>
@@ -566,6 +583,7 @@ footer{background:var(--blue-950);color:rgba(232,237,242,.7);padding:3.5rem 0 2.
     <li><a href="#profil">Profil</a></li>
     <li><a href="#pengumuman">Pengumuman</a></li>
     <li><a href="#bahan">Bahan Pembelajaran</a></li>
+    <li><a href="#soalan">Bank Soalan</a></li>
     <li><a href="#semakan">Semak Keputusan</a></li>
     <li><a href="#kemenjadian">Kemenjadian Murid</a></li>
     <li><a href="#kenangan">Kenangan</a></li>
@@ -682,6 +700,18 @@ footer{background:var(--blue-950);color:rgba(232,237,242,.7);padding:3.5rem 0 2.
     <div class="tabs reveal" role="tablist" aria-label="Pilih tingkatan" id="formTabs"></div>
     <div class="bab-grid" id="babGrid"></div>
     <p class="bahan-note reveal"><i class="ph-fill ph-video"></i><span>Setiap bab mempunyai ruangan pautan video. Video pengajaran Cikgu akan dipautkan terus dari YouTube atau Google Drive apabila dimuat naik.</span></p>
+  </div>
+</section>
+
+<!-- ================= BANK SOALAN ================= -->
+<section id="soalan">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="eyebrow"><i class="ph-fill ph-exam"></i>Latihan &amp; Percubaan</span>
+      <h2 style="margin-top:1.1rem">Bank Soalan</h2>
+      <p class="section-sub">Set soalan percubaan dan latihan tambahan untuk latih tubi murid. Setiap pautan membuka soalan dalam bentuk Google Form.</p>
+    </div>
+    <div id="soalanList"></div>
   </div>
 </section>
 
@@ -852,6 +882,16 @@ const esc = s => String(s ?? "").replace(/[&<>"']/g, c => (
 ));
 const $id = id => document.getElementById(id);
 
+/* Tukar pautan Google Drive (kongsi/view) kepada URL imej terus
+   supaya boleh dipaparkan sebagai <img>. Pautan lain / data URL
+   dikekalkan seadanya. */
+function imejUrl(u) {
+  u = String(u || "");
+  const m = u.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?[^]*?id=|thumbnail\?[^]*?id=)([\w-]{20,})/)
+        || u.match(/[?&]id=([\w-]{20,})/);
+  return m ? `https://drive.google.com/thumbnail?id=${m[1]}&sz=w1200` : u;
+}
+
 if (!D) {
   const w = document.createElement("div");
   w.className = "data-warn";
@@ -874,7 +914,7 @@ if (D) {
     `<div><b>${esc(f.tajuk)}</b><span>${esc(f.huraian)}</span></div>`).join("");
   if (p.fotoUrl) {
     $id("portraitCore").innerHTML = `
-      <img class="p-foto" src="${esc(p.fotoUrl)}" alt="Foto ${esc(p.gelaran)} ${esc(p.namaPenuh)}">
+      <img class="p-foto" src="${esc(imejUrl(p.fotoUrl))}" alt="Foto ${esc(p.gelaran)} ${esc(p.namaPenuh)}">
       <div class="p-photo-overlay">
         <div class="p-mono">${esc(p.inisial)}</div>
         <p class="p-sub">${esc(p.jawatan)}</p>
@@ -940,12 +980,33 @@ if (D) {
   $id("amalanList").innerHTML = (D.amalan || []).map((a, i) => `
     <div class="amalan-item"><span class="no">${i + 1}</span><div><h4>${esc(a.tajuk)}</h4><p>${esc(a.teks)}</p></div></div>`).join("");
 
+  /* bank soalan */
+  const soalanList = $id("soalanList");
+  if (soalanList) {
+    const setSoalan = (D.bankSoalan || []).filter(s => s && (s.item || []).length);
+    if (!setSoalan.length) {
+      soalanList.innerHTML = `<p class="soalan-kosong reveal">Set soalan akan dikongsikan di sini tidak lama lagi.</p>`;
+    } else {
+      soalanList.innerHTML = setSoalan.map(s => `
+        <div class="soalan-set reveal">
+          <h3><i class="ph-fill ph-note-pencil"></i>${esc(s.tajuk)}</h3>
+          ${s.nota ? `<p class="set-nota">${esc(s.nota)}</p>` : ""}
+          <div class="soalan-grid">
+            ${(s.item || []).filter(x => x && x.url).map(x => `
+              <a class="soalan-link" href="${esc(x.url)}" target="_blank" rel="noopener">
+                <span>${esc(x.label)}</span><i class="ph ph-arrow-up-right"></i>
+              </a>`).join("")}
+          </div>
+        </div>`).join("");
+    }
+  }
+
   /* kenangan */
   $id("kenanganSub").textContent = t.kenanganSub;
   const KELAS_G = ["g1", "g2", "g3", "g4", "g5"];
   $id("galeriGrid").innerHTML = (D.kenangan || []).map((g, i) => `
     <figure class="${KELAS_G[i % 5]} reveal" style="transition-delay:${(i % 3) * 0.08}s">
-      <img loading="lazy" src="${esc(g.img)}" alt="${esc(g.kapsyen)}">
+      <img loading="lazy" src="${esc(imejUrl(g.img))}" alt="${esc(g.kapsyen)}">
       <figcaption>${esc(g.kapsyen)}</figcaption>
     </figure>`).join("");
 
