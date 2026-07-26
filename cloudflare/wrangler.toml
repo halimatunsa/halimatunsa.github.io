@@ -24,6 +24,6 @@ database_id = "d773c6d6-fb39-45fc-97f1-af15eb268c31"
 # ============================================================
 [vars]
 GITHUB_OWNER = "halimatunsa"
-GITHUB_REPO = "halimatun.github.io"
+GITHUB_REPO = "halimatunsa.github.io"
 GITHUB_BRANCH = "main"
 GITHUB_PATH = "data.js"

@@ -52,6 +52,41 @@ async function badanJson(request) {
   try { return await request.json(); } catch { return {}; }
 }
 
+/* ---------- kata laluan admin (hash dalam D1, fallback ke env) ---------- */
+async function sha256hex(teks) {
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(teks));
+  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
+}
+async function tetapanGet(env, kunci) {
+  await env.halimatun_db.prepare("CREATE TABLE IF NOT EXISTS tetapan (kunci TEXT PRIMARY KEY, nilai TEXT)").run();
+  const row = await env.halimatun_db.prepare("SELECT nilai FROM tetapan WHERE kunci = ?").bind(kunci).first();
+  return row ? row.nilai : null;
+}
+async function tetapanSet(env, kunci, nilai) {
+  await env.halimatun_db.prepare("CREATE TABLE IF NOT EXISTS tetapan (kunci TEXT PRIMARY KEY, nilai TEXT)").run();
+  await env.halimatun_db.prepare(
+    "INSERT INTO tetapan (kunci, nilai) VALUES (?, ?) ON CONFLICT(kunci) DO UPDATE SET nilai = excluded.nilai"
+  ).bind(kunci, nilai).run();
+}
+async function kunciSah(env, kunci) {
+  if (!kunci) return false;
+  const hash = await tetapanGet(env, "admin_hash");
+  if (hash) return (await sha256hex(kunci)) === hash;
+  return !!env.ADMIN_KEY && kunci === env.ADMIN_KEY; // bootstrap sebelum kata laluan disimpan dalam D1
+}
+
+/* ---------- tukar kata laluan admin (layan sendiri melalui admin.html) ---------- */
+async function tukarKunci(request, env) {
+  if (request.method !== "POST") return json({ ok: false, mesej: "Kaedah tidak dibenarkan" }, 405);
+  const b = await badanJson(request);
+  if (b.action !== "changePassword") return json({ ok: false, mesej: "Tindakan tidak dikenali" }, 400);
+  const lama = String(b.lama || ""), baru = String(b.baru || "");
+  if (!(await kunciSah(env, lama))) return json({ ok: false, mesej: "Kata laluan semasa salah" }, 401);
+  if (baru.length < 6) return json({ ok: false, mesej: "Kata laluan baharu mesti sekurang-kurangnya 6 aksara" }, 400);
+  await tetapanSet(env, "admin_hash", await sha256hex(baru));
+  return json({ ok: true, mesej: "Kata laluan berjaya ditukar" });
+}
+
 export default {
   async fetch(request, env) {
     if (request.method === "OPTIONS") {
@@ -63,6 +98,7 @@ export default {
       if (path.endsWith("/cadang.php")) return await cadang(request, env);
       if (path.endsWith("/rekod_admin.php")) return await rekodAdmin(request, env);
       if (path.endsWith("/kandungan_admin.php")) return await kandunganAdmin(request, env);
+      if (path.endsWith("/tukar_kunci.php")) return await tukarKunci(request, env);
       return json({ ok: false, mesej: "Laluan tidak dijumpai" }, 404);
     } catch (e) {
       return json({ ok: false, mesej: "Ralat pelayan" }, 500);
@@ -124,7 +160,7 @@ async function cadang(request, env) {
 /* ---------- API admin (perlu X-Admin-Key) ---------- */
 async function rekodAdmin(request, env) {
   const kunci = request.headers.get("X-Admin-Key") || "";
-  if (!env.ADMIN_KEY || kunci !== env.ADMIN_KEY) {
+  if (!(await kunciSah(env, kunci))) {
     return json({ ok: false, mesej: "Kunci admin salah" }, 401);
   }
 
@@ -183,7 +219,7 @@ async function rekodAdmin(request, env) {
 /* ---------- simpan kandungan (data.js) terus ke repo GitHub ---------- */
 async function kandunganAdmin(request, env) {
   const kunci = request.headers.get("X-Admin-Key") || "";
-  if (!env.ADMIN_KEY || kunci !== env.ADMIN_KEY) {
+  if (!(await kunciSah(env, kunci))) {
     return json({ ok: false, mesej: "Kunci admin salah" }, 401);
   }
   if (request.method !== "POST") {

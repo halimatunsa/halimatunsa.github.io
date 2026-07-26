@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2032%2032%27%3E%3Crect%20width%3D%2732%27%20height%3D%2732%27%20rx%3D%278%27%20fill%3D%27%230A1E33%27%2F%3E%3Cpath%20d%3D%27M13%207v6l-4.4%208.7A1.6%201.6%200%200%200%2010%2024h12a1.6%201.6%200%200%200%201.4-2.3L19%2013V7%27%20fill%3D%27none%27%20stroke%3D%27%23EDF2F8%27%20stroke-width%3D%271.8%27%20stroke-linejoin%3D%27round%27%2F%3E%3Cpath%20d%3D%27M11%207h10%27%20stroke%3D%27%23EDF2F8%27%20stroke-width%3D%271.8%27%20stroke-linecap%3D%27round%27%2F%3E%3Cpath%20d%3D%27M11.4%2018.5h9.2%27%20stroke%3D%27%23C4861F%27%20stroke-width%3D%272%27%20stroke-linecap%3D%27round%27%2F%3E%3Ccircle%20cx%3D%2714.5%27%20cy%3D%2721%27%20r%3D%271%27%20fill%3D%27%23C4861F%27%2F%3E%3C%2Fsvg%3E">
 <title>Panel Kandungan | Cikgu Halimatun</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -140,9 +141,35 @@ input:focus,textarea:focus,select:focus{outline:2px solid var(--amber);outline-o
   .grid2,.grid3{grid-template-columns:1fr}
   .mini-row{grid-template-columns:1fr 70px 60px 32px}
 }
+/* ---------- gate kata laluan ---------- */
+body.terkunci .topbar,body.terkunci .shell{display:none}
+body:not(.terkunci) #gate{display:none}
+#gate{min-height:100dvh;display:grid;place-items:center;padding:1.5rem}
+.gate-kad{max-width:420px;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:2rem;box-shadow:0 24px 60px -28px rgba(19,48,78,.22)}
+.gate-kad .mark{width:44px;height:44px;border-radius:999px;background:var(--blue-900);color:#F3EBD8;display:grid;place-items:center;font-size:.85rem;font-weight:700;margin-bottom:1rem}
+.gate-kad h2{font-size:1.3rem;margin-bottom:.35rem}
+.gate-kad p{font-size:.86rem;color:var(--muted);margin-bottom:1.3rem}
+.gate-kad label{display:block;font-size:.76rem;font-weight:700;color:var(--blue-700);margin-bottom:.35rem}
+.gate-kad input{width:100%;padding:.72rem .9rem;border-radius:10px;border:1px solid rgba(22,34,47,.16);background:#FBFCFE;font-family:inherit;font-size:.92rem;margin-bottom:1.1rem}
+.gate-kad input:focus{outline:2px solid var(--amber);outline-offset:1px}
+.gate-err{color:#8A3324;font-size:.82rem;margin-top:.9rem;min-height:1.1em}
+/* kad tukar kata laluan */
+.pass-row{display:grid;gap:.7rem;max-width:420px}
 </style>
 </head>
-<body>
+<body class="terkunci">
+
+<div id="gate">
+  <div class="gate-kad">
+    <div class="mark">HS</div>
+    <h2>Panel Kandungan</h2>
+    <p>Masukkan kata laluan admin untuk mengurus kandungan laman.</p>
+    <label for="gateKey">Kata Laluan</label>
+    <input type="password" id="gateKey" placeholder="Kata laluan admin" autocomplete="current-password">
+    <button class="btn btn-primary" id="gateMasuk" style="width:100%;justify-content:center">Masuk <i class="ph ph-arrow-right"></i></button>
+    <p class="gate-err" id="gateErr"></p>
+  </div>
+</div>
 
 <div class="topbar">
   <div class="brand"><span class="mark">HS</span>Panel Kandungan</div>
@@ -198,6 +225,14 @@ let sumberDraf = false;
     try { state = JSON.parse(draf); sumberDraf = true; } catch (e) { state = null; }
   }
   if (!state && window.SITE_DATA) state = JSON.parse(JSON.stringify(window.SITE_DATA));
+  /* Perlindungan: jika draf lama ketinggalan kunci baharu yang ada dalam
+     data.js semasa (cth bankSoalan, kenangan terkini), tambah semula supaya
+     Simpan tidak memadamkan kandungan yang ditambah kemudian. */
+  if (state && sumberDraf && window.SITE_DATA) {
+    for (const k in window.SITE_DATA) {
+      if (!(k in state)) state[k] = JSON.parse(JSON.stringify(window.SITE_DATA[k]));
+    }
+  }
   if (state) {
     if (!state.tetapan) state.tetapan = {};
     if (state.tetapan.apiUrl === undefined) state.tetapan.apiUrl = "";
@@ -615,6 +650,19 @@ const LUKIS = {
         </div>
       </div>
       <div class="card">
+        <div class="card-head"><h3>Tukar Kata Laluan</h3></div>
+        <p style="font-size:.86rem;color:var(--muted);margin-bottom:1rem">Tukar kata laluan yang digunakan untuk masuk ke panel ini dan papan pemuka. Berkuat kuasa serta-merta untuk semua peranti.</p>
+        <div class="pass-row">
+          <div class="f">${'' /* medan diisi di bawah */}<label class="f-label">Kata Laluan Semasa</label><input type="password" id="passLama" autocomplete="current-password" placeholder="Kata laluan sekarang"></div>
+          <div class="f"><label class="f-label">Kata Laluan Baharu</label><input type="password" id="passBaru" autocomplete="new-password" placeholder="Sekurang-kurangnya 6 aksara"></div>
+          <div class="f"><label class="f-label">Sahkan Kata Laluan Baharu</label><input type="password" id="passSah" autocomplete="new-password" placeholder="Taip semula kata laluan baharu"></div>
+          <div style="display:flex;gap:.7rem;align-items:center;flex-wrap:wrap">
+            <button class="btn btn-primary" data-act="tukarPass"><i class="ph-fill ph-key"></i>Tukar Kata Laluan</button>
+            <span class="f-help" id="passStatus"></span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
         <div class="card-head"><h3>Cara menerbitkan perubahan</h3></div>
         <p style="font-size:.86rem;color:var(--muted);margin-bottom:1rem"><b>Hosting PHP (folder api aktif):</b> cukup klik butang <b>Simpan</b> di bahagian atas. Fail data.js di pelayan akan dikemas kini terus. Pastikan URL API dan Kunci Admin telah diisi di atas.</p>
         <p style="font-size:.86rem;color:var(--muted);margin-bottom:1rem"><b>GitHub Pages + Cloudflare Worker (GITHUB_TOKEN dikonfigurasi):</b> klik <b>Simpan</b> juga. Worker akan commit fail data.js terus ke repo GitHub anda. Tiada Muat Turun / muat naik manual diperlukan.</p>
@@ -764,9 +812,42 @@ const TINDAKAN = {
       s.textContent = "Tidak dapat menghubungi API.";
     }
   },
+
+  async tukarPass() {
+    const s = document.getElementById("passStatus");
+    const { url } = apiAsas();
+    const lama = document.getElementById("passLama").value;
+    const baru = document.getElementById("passBaru").value;
+    const sah = document.getElementById("passSah").value;
+    s.style.color = "";
+    if (!url) { s.textContent = "URL API belum ditetapkan."; return; }
+    if (!lama || !baru) { s.textContent = "Sila isi kata laluan semasa dan baharu."; return; }
+    if (baru.length < 6) { s.textContent = "Kata laluan baharu mesti sekurang-kurangnya 6 aksara."; return; }
+    if (baru !== sah) { s.textContent = "Kata laluan baharu dan pengesahan tidak sama."; return; }
+    s.textContent = "Menukar...";
+    try {
+      const r = await fetch(url + "/tukar_kunci.php", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "changePassword", lama, baru }),
+      });
+      const j = await r.json();
+      if (j.ok) {
+        localStorage.setItem("uh_admin_key", baru); // kekal masuk dengan kata laluan baharu
+        s.style.color = "var(--blue-700)";
+        s.textContent = "Kata laluan berjaya ditukar.";
+        document.getElementById("passLama").value = "";
+        document.getElementById("passBaru").value = "";
+        document.getElementById("passSah").value = "";
+      } else {
+        s.textContent = j.mesej || "Gagal menukar kata laluan.";
+      }
+    } catch (err) {
+      s.textContent = "Tidak dapat menghubungi API.";
+    }
+  },
 };
 
-const TINDAKAN_DB = { ujiApi: 1, muatDb: 1, terbitDb: 1 };
+const TINDAKAN_DB = { ujiApi: 1, muatDb: 1, terbitDb: 1, tukarPass: 1 };
 
 function apiAsas() {
   return {
@@ -835,7 +916,8 @@ function muatTurunDataJs() {
    fail ini, kemudian muat semula laman.
    ============================================================ */
 window.SITE_DATA = `;
-  const teks = kepala + JSON.stringify(state, null, 2) + ";\n";
+  /* PRIVASI: jangan sertakan rekod murid dalam fail data.js awam */
+  const teks = kepala + JSON.stringify({ ...state, rekod: [] }, null, 2) + ";\n";
   const blob = new Blob([teks], { type: "text/javascript;charset=utf-8" });
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
@@ -865,10 +947,13 @@ btnSimpan.addEventListener("click", async () => {
   btnSimpan.disabled = true;
   btnSimpan.innerHTML = `<i class="ph ph-circle-notch"></i>Menyimpan...`;
   try {
+    /* PRIVASI: rekod murid (nama/IC/markah) TIDAK ditulis ke data.js awam;
+       ia hidup dalam pangkalan data D1 sahaja. Kosongkan sebelum hantar. */
+    const dataAwam = { ...state, rekod: [] };
     const r = await fetch(url + "/kandungan_admin.php", {
       method: "POST",
       headers: { "Content-Type": "application/json", "X-Admin-Key": kunci },
-      body: JSON.stringify({ action: "save", data: state }),
+      body: JSON.stringify({ action: "save", data: dataAwam }),
     });
     const j = await r.json().catch(() => null);
     if (j && j.ok) {
@@ -914,9 +999,39 @@ document.getElementById("fileImport").addEventListener("change", e => {
   e.target.value = "";
 });
 
-/* ---------- mula ---------- */
-lukisSideNav();
-lukisPanel();
+/* ---------- gate kata laluan ---------- */
+const gateKey = $("gateKey"), gateMasuk = $("gateMasuk"), gateErr = $("gateErr");
+gateKey.value = localStorage.getItem("uh_admin_key") || "";
+function bukaPanel() {
+  document.body.classList.remove("terkunci");
+  lukisSideNav();
+  lukisPanel();
+}
+async function cubaMasuk() {
+  const kunci = gateKey.value.trim();
+  const apiUrl = String(state.tetapan.apiUrl || "").replace(/\/+$/, "");
+  gateErr.textContent = "";
+  if (!apiUrl) { if (kunci) localStorage.setItem("uh_admin_key", kunci); bukaPanel(); return; }
+  if (!kunci) { gateErr.textContent = "Sila masukkan kata laluan."; return; }
+  gateMasuk.disabled = true;
+  gateMasuk.innerHTML = '<i class="ph ph-circle-notch"></i> Menyemak...';
+  try {
+    const r = await fetch(apiUrl + "/rekod_admin.php", {
+      method: "POST", headers: { "Content-Type": "application/json", "X-Admin-Key": kunci },
+      body: JSON.stringify({ action: "ping" }),
+    });
+    const j = await r.json();
+    if (!j.ok) { gateErr.textContent = j.mesej || "Kata laluan salah."; }
+    else { localStorage.setItem("uh_admin_key", kunci); bukaPanel(); return; }
+  } catch (e) {
+    gateErr.textContent = "API tidak dapat dihubungi. Cuba lagi.";
+  }
+  gateMasuk.disabled = false;
+  gateMasuk.innerHTML = 'Masuk <i class="ph ph-arrow-right"></i>';
+}
+gateMasuk.addEventListener("click", cubaMasuk);
+gateKey.addEventListener("keydown", e => { if (e.key === "Enter") cubaMasuk(); });
+gateKey.focus();
 </script>
 </body>
 </html>
