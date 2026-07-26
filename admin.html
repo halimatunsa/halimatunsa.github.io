@@ -180,6 +180,14 @@ const statusText = document.getElementById("statusText");
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => (
   { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]
 ));
+/* tukar pautan Google Drive kepada URL imej lh3 (untuk pratonton thumbnail) */
+function imejKecil(u) {
+  u = String(u || "");
+  const m = u.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?[^]*?id=|thumbnail\?[^]*?id=)([\w-]{20,})/)
+        || u.match(/lh3\.googleusercontent\.com\/d\/([\w-]{20,})/)
+        || u.match(/[?&]id=([\w-]{20,})/);
+  return m ? `https://lh3.googleusercontent.com/d/${m[1]}=w200` : u;
+}
 
 /* ---------- muat data ---------- */
 let state = null;
@@ -503,7 +511,7 @@ const LUKIS = {
       ${state.kenangan.map((g, i) => `
         <div class="card">
           <div class="gal-row">
-            <img class="thumb" src="${esc(g.img)}" alt="" onerror="this.style.opacity=.25">
+            <img class="thumb" src="${esc(imejKecil(g.img))}" alt="" loading="lazy" onerror="this.style.opacity=.25">
             <div class="fields">
               <div class="grid2" style="grid-template-columns:1.4fr 1fr auto;align-items:end">
                 ${fTeks("URL Gambar", `kenangan.${i}.img`, { jenis: "url" })}

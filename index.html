@@ -18,6 +18,7 @@
    ============================================================ */
 :root{
   --bg:#F5F7FA;
+  --bg-alt:#E9EEF5;
   --surface:#FFFFFF;
   --ink:#16222F;
   --muted:#57697C;
@@ -57,6 +58,8 @@ h2{font-size:clamp(1.9rem,3.4vw,2.7rem);font-weight:700}
 
 .wrap{max-width:1180px;margin-inline:auto;padding-inline:clamp(1.1rem,4vw,2.5rem)}
 section{padding-block:clamp(4.5rem,9vw,7.5rem)}
+/* seksyen bertona untuk pemisah visual halus antara blok */
+.sec-tint{background:var(--bg-alt)}
 
 /* ---------- reveal on scroll ---------- */
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
@@ -459,23 +462,69 @@ section{padding-block:clamp(4.5rem,9vw,7.5rem)}
 /* ============================================================
    KENANGAN
    ============================================================ */
-.galeri{display:grid;grid-template-columns:repeat(12,1fr);gap:1rem;margin-top:2.8rem}
-.galeri figure{
-  border-radius:20px;overflow:hidden;position:relative;margin:0;
-  border:1px solid var(--line);background:var(--blue-100);
+/* masonry ringkas guna CSS columns: tinggi ikut nisbah asal gambar */
+.galeri{columns:220px;column-gap:.85rem;margin-top:2.8rem}
+.galeri button{
+  border:none;padding:0;margin:0 0 .85rem;cursor:pointer;display:block;width:100%;
+  break-inside:avoid;-webkit-column-break-inside:avoid;
+  border-radius:16px;overflow:hidden;position:relative;
+  background:var(--blue-100);
+  box-shadow:0 1px 2px rgba(19,48,78,.06);
+  transition:transform .5s var(--ease),box-shadow .5s var(--ease);
 }
-.galeri img{width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease)}
-.galeri figure:hover img{transform:scale(1.045)}
-.galeri figcaption{
-  position:absolute;left:0;right:0;bottom:0;padding:2.2rem 1.1rem .85rem;
-  background:linear-gradient(transparent,rgba(10,30,51,.82));
-  color:#EDF2F8;font-size:.8rem;font-weight:600;
+.galeri button::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(160deg,transparent 55%,rgba(10,30,51,.28));
+  opacity:0;transition:opacity .5s var(--ease);
 }
-.g1{grid-column:span 7;aspect-ratio:16/10}
-.g2{grid-column:span 5;aspect-ratio:4/3.4}
-.g3{grid-column:span 4;aspect-ratio:1/1}
-.g4{grid-column:span 4;aspect-ratio:1/1}
-.g5{grid-column:span 4;aspect-ratio:1/1}
+.galeri button:hover{transform:translateY(-3px);box-shadow:var(--shadow-soft)}
+.galeri button:hover::after{opacity:1}
+.galeri button:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+.galeri img{width:100%;height:auto;display:block;transition:transform .9s var(--ease)}
+.galeri button:hover img{transform:scale(1.06)}
+.galeri .zoom-ic{
+  position:absolute;right:.6rem;bottom:.6rem;z-index:1;
+  width:30px;height:30px;border-radius:999px;display:grid;place-items:center;
+  background:rgba(255,255,255,.9);color:var(--blue-900);font-size:.95rem;
+  opacity:0;transform:scale(.8);transition:opacity .5s var(--ease),transform .5s var(--ease);
+}
+.galeri button:hover .zoom-ic{opacity:1;transform:scale(1)}
+.galeri-lagi{
+  position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:.1rem;
+  background:rgba(10,30,51,.62);color:#fff;
+  transition:background .5s var(--ease);
+}
+.galeri button:hover .galeri-lagi{background:rgba(10,30,51,.72)}
+.galeri-lagi b{font-family:var(--font-display);font-size:1.9rem;font-weight:800;line-height:1}
+.galeri-lagi small{font-size:.72rem;font-weight:600;letter-spacing:.02em;opacity:.85}
+
+/* ---------- lightbox ---------- */
+.lightbox{
+  position:fixed;inset:0;z-index:1000;display:grid;place-items:center;
+  background:rgba(8,20,34,.92);backdrop-filter:blur(6px);
+  opacity:0;pointer-events:none;transition:opacity .4s var(--ease);
+  padding:clamp(1rem,4vw,3rem);
+}
+.lightbox.buka{opacity:1;pointer-events:auto}
+.lightbox img{
+  max-width:100%;max-height:86dvh;border-radius:12px;object-fit:contain;
+  box-shadow:0 30px 80px -20px rgba(0,0,0,.6);
+  transform:scale(.96);transition:transform .4s var(--ease);
+}
+.lightbox.buka img{transform:scale(1)}
+.lb-btn{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:52px;height:52px;border-radius:999px;border:none;cursor:pointer;
+  background:rgba(255,255,255,.12);color:#fff;font-size:1.4rem;
+  display:grid;place-items:center;transition:background .3s var(--ease)}
+.lb-btn:hover{background:rgba(255,255,255,.24)}
+.lb-prev{left:clamp(.6rem,3vw,2rem)}
+.lb-next{right:clamp(.6rem,3vw,2rem)}
+.lb-close{top:clamp(.8rem,3vw,1.5rem);right:clamp(.8rem,3vw,1.5rem);transform:none;width:46px;height:46px;font-size:1.2rem}
+.lb-kira{position:absolute;top:clamp(1rem,3vw,1.7rem);left:clamp(1rem,4vw,2.4rem);color:rgba(255,255,255,.75);font-size:.85rem;font-variant-numeric:tabular-nums;font-weight:600}
+@media (max-width:600px){.lb-btn{width:42px;height:42px;font-size:1.1rem}}
+@media (prefers-reduced-motion:reduce){.lightbox,.lightbox img,.galeri button,.galeri img{transition:none}}
 
 /* ============================================================
    FOOTER
@@ -554,8 +603,8 @@ footer{background:var(--blue-950);color:rgba(232,237,242,.7);padding:3.5rem 0 2.
   .notice-tag{display:none}
   .stat-band{grid-template-columns:1fr}
   .stat-tile.lead{grid-column:span 1}
-  .galeri{grid-template-columns:1fr}
-  .g1,.g2,.g3,.g4,.g5{grid-column:span 1;aspect-ratio:16/11}
+  .galeri{columns:150px;column-gap:.6rem}
+  .galeri button{margin-bottom:.6rem}
   .foot-grid{grid-template-columns:1fr}
   .tabs{width:100%;justify-content:space-between}
   .tab{padding:.55rem .9rem;font-size:.84rem}
@@ -690,7 +739,7 @@ footer{background:var(--blue-950);color:rgba(232,237,242,.7);padding:3.5rem 0 2.
 </section>
 
 <!-- ================= BAHAN PEMBELAJARAN ================= -->
-<section id="bahan">
+<section id="bahan" class="sec-tint">
   <div class="wrap">
     <div class="reveal">
       <span class="eyebrow"><i class="ph-fill ph-books"></i>Sains KSSM</span>
@@ -754,7 +803,7 @@ footer{background:var(--blue-950);color:rgba(232,237,242,.7);padding:3.5rem 0 2.
 </section>
 
 <!-- ================= KEMENJADIAN ================= -->
-<section id="kemenjadian">
+<section id="kemenjadian" class="sec-tint">
   <div class="wrap">
     <div class="reveal">
       <h2>Kemenjadian Murid</h2>
@@ -786,7 +835,7 @@ footer{background:var(--blue-950);color:rgba(232,237,242,.7);padding:3.5rem 0 2.
 </section>
 
 <!-- ================= KAJIAN & AMALAN ================= -->
-<section id="kajian" style="padding-top:0">
+<section id="kajian" class="sec-tint" style="padding-top:0">
   <div class="wrap dua-lajur">
     <div class="reveal">
       <div class="mini-head"><i class="ph-fill ph-lightbulb"></i><h3>Kajian Tindakan &amp; Inovasi</h3></div>
@@ -814,24 +863,27 @@ footer{background:var(--blue-950);color:rgba(232,237,242,.7);padding:3.5rem 0 2.
 </section>
 
 <!-- ================= KENANGAN ================= -->
-<section id="kenangan" style="padding-top:0">
+<section id="kenangan" class="sec-tint" style="padding-top:0">
   <div class="wrap">
     <div class="reveal">
       <span class="eyebrow"><i class="ph-fill ph-camera"></i>Galeri</span>
       <h2 style="margin-top:1.1rem">Kenangan Bersama Murid</h2>
       <p class="section-sub" id="kenanganSub">Koleksi gambar bersama murid-murid lama. Gambar di bawah ialah penanda tempat dan akan digantikan dengan foto sebenar.</p>
     </div>
-    <div class="galeri" id="galeriGrid">
-      <figure class="g1 reveal"><img loading="lazy" src="https://picsum.photos/seed/kelas-sains-makmal/900/560" alt="Penanda tempat: aktiviti makmal bersama murid"><figcaption>Aktiviti amali di makmal Sains</figcaption></figure>
-      <figure class="g2 reveal" style="transition-delay:.08s"><img loading="lazy" src="https://picsum.photos/seed/hari-anugerah-sekolah/700/600" alt="Penanda tempat: hari anugerah sekolah"><figcaption>Hari Anugerah Cemerlang</figcaption></figure>
-      <figure class="g3 reveal"><img loading="lazy" src="https://picsum.photos/seed/karnival-sains/600/600" alt="Penanda tempat: karnival sains"><figcaption>Karnival Sains sekolah</figcaption></figure>
-      <figure class="g4 reveal" style="transition-delay:.08s"><img loading="lazy" src="https://picsum.photos/seed/lawatan-pusat-sains/600/600" alt="Penanda tempat: lawatan sambil belajar"><figcaption>Lawatan sambil belajar</figcaption></figure>
-      <figure class="g5 reveal" style="transition-delay:.16s"><img loading="lazy" src="https://picsum.photos/seed/graduasi-tingkatan-lima/600/600" alt="Penanda tempat: graduasi murid tingkatan lima"><figcaption>Graduasi Tingkatan 5</figcaption></figure>
-    </div>
+    <div class="galeri" id="galeriGrid"></div>
   </div>
 </section>
 
 </main>
+
+<!-- ================= LIGHTBOX ================= -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Paparan penuh gambar" hidden>
+  <span class="lb-kira" id="lbKira"></span>
+  <button class="lb-btn lb-close" id="lbClose" aria-label="Tutup"><i class="ph ph-x"></i></button>
+  <button class="lb-btn lb-prev" id="lbPrev" aria-label="Gambar sebelum"><i class="ph ph-caret-left"></i></button>
+  <img id="lbImg" src="" alt="">
+  <button class="lb-btn lb-next" id="lbNext" aria-label="Gambar seterusnya"><i class="ph ph-caret-right"></i></button>
+</div>
 
 <!-- ================= FOOTER ================= -->
 <footer>
@@ -886,11 +938,48 @@ const $id = id => document.getElementById(id);
 /* Tukar pautan Google Drive (kongsi/view) kepada URL imej terus
    supaya boleh dipaparkan sebagai <img>. Pautan lain / data URL
    dikekalkan seadanya. */
-function imejUrl(u) {
+function imejUrl(u, lebar = 1200) {
   u = String(u || "");
   const m = u.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?[^]*?id=|thumbnail\?[^]*?id=)([\w-]{20,})/)
+        || u.match(/lh3\.googleusercontent\.com\/d\/([\w-]{20,})/)
         || u.match(/[?&]id=([\w-]{20,})/);
-  return m ? `https://drive.google.com/thumbnail?id=${m[1]}&sz=w1200` : u;
+  /* CDN lh3 memaparkan imej Drive terus (bukan 302 seperti /thumbnail) */
+  return m ? `https://lh3.googleusercontent.com/d/${m[1]}=w${lebar}` : u;
+}
+
+/* Lightbox galeri: klik gambar untuk paparan penuh, dengan navigasi. */
+function pasangLightbox(foto) {
+  const lb = $id("lightbox"), lbImg = $id("lbImg"), lbKira = $id("lbKira"), grid = $id("galeriGrid");
+  if (!lb || !grid) return;
+  let idx = 0;
+  const papar = i => {
+    idx = (i + foto.length) % foto.length;
+    lbImg.src = imejUrl(foto[idx].img, 1600);
+    lbImg.alt = foto[idx].kapsyen || `Kenangan bersama murid ${idx + 1}`;
+    lbKira.textContent = `${idx + 1} / ${foto.length}`;
+  };
+  const buka = i => {
+    papar(i);
+    lb.hidden = false;
+    requestAnimationFrame(() => lb.classList.add("buka"));
+    document.body.style.overflow = "hidden";
+  };
+  const tutup = () => {
+    lb.classList.remove("buka");
+    document.body.style.overflow = "";
+    setTimeout(() => { lb.hidden = true; lbImg.src = ""; }, 400);
+  };
+  grid.onclick = e => { const b = e.target.closest("[data-lb]"); if (b) buka(+b.dataset.lb); };
+  $id("lbClose").onclick = tutup;
+  $id("lbPrev").onclick = () => papar(idx - 1);
+  $id("lbNext").onclick = () => papar(idx + 1);
+  lb.onclick = e => { if (e.target === lb) tutup(); };
+  document.onkeydown = e => {
+    if (lb.hidden) return;
+    if (e.key === "Escape") tutup();
+    else if (e.key === "ArrowLeft") papar(idx - 1);
+    else if (e.key === "ArrowRight") papar(idx + 1);
+  };
 }
 
 if (!D) {
@@ -1026,12 +1115,21 @@ if (D) {
 
   /* kenangan */
   $id("kenanganSub").textContent = t.kenanganSub;
-  const KELAS_G = ["g1", "g2", "g3", "g4", "g5"];
-  $id("galeriGrid").innerHTML = (D.kenangan || []).map((g, i) => `
-    <figure class="${KELAS_G[i % 5]} reveal" style="transition-delay:${(i % 3) * 0.08}s">
-      <img loading="lazy" src="${esc(imejUrl(g.img))}" alt="${esc(g.kapsyen)}">
-      <figcaption>${esc(g.kapsyen)}</figcaption>
-    </figure>`).join("");
+  const foto = (D.kenangan || []).filter(g => g && g.img);
+  const paparMax = 7;
+  const tampil = foto.slice(0, paparMax);
+  const baki = foto.length - paparMax;
+  $id("galeriGrid").innerHTML = tampil.map((g, i) => {
+    const lagi = (i === paparMax - 1 && baki > 0);
+    return `
+    <button type="button" data-lb="${i}" aria-label="${lagi ? `Lihat semua ${foto.length} gambar` : `Buka gambar ${i + 1}`}">
+      <img loading="lazy" src="${esc(imejUrl(g.img, 600))}" alt="${esc(g.kapsyen || 'Kenangan bersama murid ' + (i + 1))}">
+      ${lagi
+        ? `<span class="galeri-lagi"><b>+${baki}</b><small>Lihat semua</small></span>`
+        : `<span class="zoom-ic"><i class="ph ph-magnifying-glass-plus"></i></span>`}
+    </button>`;
+  }).join("");
+  pasangLightbox(foto);
 
   /* footer */
   $id("footBrandName").textContent = `${p.gelaran} ${p.namaUtama}`;

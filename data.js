@@ -24,7 +24,7 @@ window.SITE_DATA = {
     "heroSub": "Nota, latihan, video dan semakan keputusan Sains KSSM untuk murid Tingkatan 1 hingga 5, semuanya di satu tempat.",
     "pengumumanSub": "Makluman terkini panitia dan kelas Sains. Paparan di bawah ialah contoh dan akan dikemas kini dari semasa ke semasa.",
     "kemenjadianSub": "Pencapaian murid dalam mata pelajaran Sains. Angka di bawah ialah contoh paparan dan akan digantikan dengan data sebenar panitia.",
-    "kenanganSub": "Koleksi gambar bersama murid-murid lama. Gambar di bawah ialah penanda tempat dan akan digantikan dengan foto sebenar.",
+    "kenanganSub": "Koleksi kenangan bersama murid sepanjang sesi persekolahan. Klik mana-mana gambar untuk melihat paparan penuh.",
     "semakHint": "Rekod contoh untuk dicuba: Nur Aisyah binti Roslan, Muhammad Danish bin Azhar, atau IC 080214-03-0912.",
     "footerTentang": "Portfolio dan pusat pembelajaran Sains KSSM Tingkatan 1 hingga 5 untuk murid, ibu bapa dan warga sekolah."
   },
@@ -469,26 +469,56 @@ window.SITE_DATA = {
     }
   ],
   "kenangan": [
-    {
-      "img": "https://drive.google.com/file/d/1vwn1y-wlLENDb7OXW8V_TOHUpcNOQI9F/view?usp=sharing",
-      "kapsyen": "Aktiviti amali di makmal Sains"
-    },
-    {
-      "img": "https://picsum.photos/seed/hari-anugerah-sekolah/700/600",
-      "kapsyen": "Hari Anugerah Cemerlang"
-    },
-    {
-      "img": "https://picsum.photos/seed/karnival-sains/600/600",
-      "kapsyen": "Karnival Sains sekolah"
-    },
-    {
-      "img": "https://picsum.photos/seed/lawatan-pusat-sains/600/600",
-      "kapsyen": "Lawatan sambil belajar"
-    },
-    {
-      "img": "https://picsum.photos/seed/graduasi-tingkatan-lima/600/600",
-      "kapsyen": "Graduasi Tingkatan 5"
-    }
+    { "img": "https://drive.google.com/file/d/1UmkmyWZUbuZOJd385Hygav4znF1t8Gae/view" },
+    { "img": "https://drive.google.com/file/d/1QGMCquhT9-HJv8zDxLhas2qikFVotdtI/view" },
+    { "img": "https://drive.google.com/file/d/1EuK_9-oeHmMDQqc0MP4dK2UQIN4PxaCp/view" },
+    { "img": "https://drive.google.com/file/d/1dgM2AJaafbxLpYz9XZ8loNsvypeu0i_t/view" },
+    { "img": "https://drive.google.com/file/d/1gzHJmxRTDU_o-dE0I2JRhaSbgyKcmgbA/view" },
+    { "img": "https://drive.google.com/file/d/1Xj87OvDDaBGEQHzhTCb3ixQ5ObS7nh2r/view" },
+    { "img": "https://drive.google.com/file/d/1ZQPcFObjO0G941-ZNPatQqA-t4IQETi8/view" },
+    { "img": "https://drive.google.com/file/d/1cWc5Xp3RXdNoc6pONphLgwThQS5zTete/view" },
+    { "img": "https://drive.google.com/file/d/10HEu6nHXzC_cc8iat-8cABnIlq0FFum7/view" },
+    { "img": "https://drive.google.com/file/d/1fGAEXg7vNPqDms2QtuBnItBwLX-WFBU7/view" },
+    { "img": "https://drive.google.com/file/d/1SLzVpymVCybvwsuvZPUyTaEWHpOV8mhN/view" },
+    { "img": "https://drive.google.com/file/d/1Knj_HZAymM5Kuj5VIKSw5tuN4ArXEoPf/view" },
+    { "img": "https://drive.google.com/file/d/1XyyDMyrwWXAuO7GElJSTxrduUc59Fzpo/view" },
+    { "img": "https://drive.google.com/file/d/1TcXim06vYoVt_BQO6Vkl2X0-59j7TRLR/view" },
+    { "img": "https://drive.google.com/file/d/1_CEt-9eQBk9dqudXVuXC6-sBomQ9hFw6/view" },
+    { "img": "https://drive.google.com/file/d/1ll9IYo2MaEDisng2Y2BW_M-3GvfiYnmT/view" },
+    { "img": "https://drive.google.com/file/d/1LBJ0U3PJLgCgNJ2ys8oQWoLJiHa5A1X0/view" },
+    { "img": "https://drive.google.com/file/d/12xMNVAyCJM8xDKeVQ5t4mC2kfh9e21Ap/view" },
+    { "img": "https://drive.google.com/file/d/1EHx3sam7jjGM5bsV_kzaQ_0Fn4hYDFAb/view" },
+    { "img": "https://drive.google.com/file/d/18M8K24283H6lIkmKd_Cfn8OhnT_auPbq/view" },
+    { "img": "https://drive.google.com/file/d/1cxmNYOF_cR8CA5-Ut1OcC_SWy8D_9Jp5/view" },
+    { "img": "https://drive.google.com/file/d/1hrHdksfqnyNtabpA-U5MJw0PyX8FXFAb/view" },
+    { "img": "https://drive.google.com/file/d/1DV-fAQwEBglJU_q51zOIe241ObVrcs2j/view" },
+    { "img": "https://drive.google.com/file/d/1_Jm2o5MSTj-hUSOYFCUa6EHUrhl4rYwL/view" },
+    { "img": "https://drive.google.com/file/d/1MmkGxhkQtDE3tWnKVS4jnr2ahe376Vh-/view" },
+    { "img": "https://drive.google.com/file/d/1zL1xEAcTbKJAE3mhSr9qM1OKevztq5ch/view" },
+    { "img": "https://drive.google.com/file/d/103YBnYZj9IsfQT8E3UTzacY07GOTWqa2/view" },
+    { "img": "https://drive.google.com/file/d/1cQ5fYjEiFSNoiGMYlmy9HttNlEmVUstl/view" },
+    { "img": "https://drive.google.com/file/d/1XpU3ecQsLcJdmsVJev6VHfRw1UAjSS9y/view" },
+    { "img": "https://drive.google.com/file/d/1dRHSLsEUXqAQQvqNPkZ_Qk--cklBFhdq/view" },
+    { "img": "https://drive.google.com/file/d/1W68VfAu0yxEgNfkhB3DYkfse2q9IQ6Rv/view" },
+    { "img": "https://drive.google.com/file/d/1x7lUYWsAkgOruNOy72TDPYRVBuMgMCK3/view" },
+    { "img": "https://drive.google.com/file/d/1vbG6QifVagSmW11doUJ8SsKhdOv4Xwk8/view" },
+    { "img": "https://drive.google.com/file/d/1-isjT56le5kY4tG6eQs_MN77W68McQav/view" },
+    { "img": "https://drive.google.com/file/d/1wAAz5a071PFMKW_BxH09g5PqY4MsVxUi/view" },
+    { "img": "https://drive.google.com/file/d/10j7Jkm3OwS35GXcXDHKRcexOgyqYu7_P/view" },
+    { "img": "https://drive.google.com/file/d/1e8Pl7f971Soy1NJ3cyUJTNAidgMRwIJC/view" },
+    { "img": "https://drive.google.com/file/d/1oBSgOhL422RqwSlnhz2dF0_XdvHYvSdw/view" },
+    { "img": "https://drive.google.com/file/d/1BhXr7YKoJms03elqgvG72IFlzxQN2iBs/view" },
+    { "img": "https://drive.google.com/file/d/1V817H-EZy59I78TXdfmiBA8dreTFjFsE/view" },
+    { "img": "https://drive.google.com/file/d/1TLXicSpZ6St4rKW-4v-_cyw0ghx39iBB/view" },
+    { "img": "https://drive.google.com/file/d/1cA_6lRAVSs4VUMax32hLVK-qemf_LpoL/view" },
+    { "img": "https://drive.google.com/file/d/1F8rDbVYbJHTRluuJWfXA7RSEMhMKAA59/view" },
+    { "img": "https://drive.google.com/file/d/1ROJXj-QN4o63BYD1I2Du_L0v_KyAIg6x/view" },
+    { "img": "https://drive.google.com/file/d/1Y1HzWK-l-_0sFBHO9dWhv-PpAbdN0xwQ/view" },
+    { "img": "https://drive.google.com/file/d/1GIYdRaDk-tJUeYrLxLAXEhnxEWxJ37m3/view" },
+    { "img": "https://drive.google.com/file/d/17jABy_z-e67KF0CWHDykqLR6FBdhqCtN/view" },
+    { "img": "https://drive.google.com/file/d/1vmz4emIPdIc5zhaFh9CmgscpdzBQItop/view" },
+    { "img": "https://drive.google.com/file/d/17fDFJEtsiF-nJ-H05HEg9xtnQnenQzxa/view" },
+    { "img": "https://drive.google.com/file/d/1yrISEa2unWgItu-p5knc07AwSrQvV4gN/view" }
   ],
   "rekod": [
     {
