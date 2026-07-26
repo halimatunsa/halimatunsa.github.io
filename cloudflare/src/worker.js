@@ -98,6 +98,7 @@ export default {
       if (path.endsWith("/cadang.php")) return await cadang(request, env);
       if (path.endsWith("/rekod_admin.php")) return await rekodAdmin(request, env);
       if (path.endsWith("/kandungan_admin.php")) return await kandunganAdmin(request, env);
+      if (path.endsWith("/kandungan.js")) return await kandunganJs(env);
       if (path.endsWith("/tukar_kunci.php")) return await tukarKunci(request, env);
       return json({ ok: false, mesej: "Laluan tidak dijumpai" }, 404);
     } catch (e) {
@@ -242,11 +243,57 @@ async function kandunganAdmin(request, env) {
     }, 501);
   }
 
+  /* Simpan salinan segera dalam pangkalan data supaya laman boleh
+     memaparkan perubahan SERTA-MERTA, tanpa menunggu GitHub Pages
+     membina semula. Kegagalan di sini tidak menghalang simpan GitHub. */
+  let segera = false;
+  try {
+    await simpanKandunganDb(env, data);
+    segera = true;
+  } catch (e) { /* laman akan guna data.js seperti biasa */ }
+
   try {
     const hasil = await simpanKeGitHub(env, data);
-    return json({ ok: true, mesej: "Kandungan disimpan terus ke GitHub", komit: hasil.sha || null });
+    return json({ ok: true, mesej: "Kandungan disimpan terus ke GitHub", komit: hasil.sha || null, segera });
   } catch (e) {
     return json({ ok: false, mesej: "Gagal simpan ke GitHub: " + e.message }, 502);
+  }
+}
+
+/* Simpan satu baris kandungan terkini (id tetap = 1). */
+async function simpanKandunganDb(env, data) {
+  await env.halimatun_db.batch([
+    env.halimatun_db.prepare(
+      "CREATE TABLE IF NOT EXISTS kandungan (id INTEGER PRIMARY KEY, json TEXT NOT NULL, dikemas TEXT NOT NULL)"
+    ),
+    env.halimatun_db.prepare(
+      "INSERT INTO kandungan (id, json, dikemas) VALUES (1, ?, ?) " +
+      "ON CONFLICT(id) DO UPDATE SET json = excluded.json, dikemas = excluded.dikemas"
+    ).bind(JSON.stringify(data), new Date().toISOString()),
+  ]);
+}
+
+/* ---------- kandungan terkini sebagai skrip (untuk laman) ----------
+   Dipanggil oleh index.html selepas data.js. Jika ada salinan lebih
+   baharu dalam pangkalan data, ia menggantikan window.SITE_DATA supaya
+   perubahan kelihatan serta-merta. Sengaja memulangkan JavaScript,
+   bukan JSON, supaya laman tidak perlu menunggu fetch tak segerak. */
+async function kandunganJs(env) {
+  const kepala = {
+    "Content-Type": "application/javascript; charset=utf-8",
+    "Cache-Control": "no-store, max-age=0",
+    ...CORS,
+  };
+  try {
+    const row = await env.halimatun_db
+      .prepare("SELECT json FROM kandungan WHERE id = 1")
+      .first();
+    if (!row || !row.json) return new Response("/* tiada salinan */", { headers: kepala });
+    /* JSON.parse dahulu untuk pastikan ia sah sebelum dihantar */
+    const data = JSON.parse(row.json);
+    return new Response("window.SITE_DATA = " + JSON.stringify(data) + ";", { headers: kepala });
+  } catch (e) {
+    return new Response("/* ralat: laman guna data.js */", { headers: kepala });
   }
 }
 

@@ -10,9 +10,24 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
-<!-- data.js dimuat dengan penanda masa seminit supaya perubahan yang baru
-     disimpan terus kelihatan, tanpa menunggu cache GitHub Pages (10 minit). -->
+<!-- 1) Kandungan asas daripada data.js (penanda masa seminit supaya tidak
+        tersekat dalam cache GitHub Pages). Ini juga sandaran jika Worker
+        tidak dapat dihubungi. -->
 <script>document.write('<script src="data.js?v=' + Math.floor(Date.now() / 60000) + '"><\/script>');</script>
+<!-- 2) Salinan TERKINI daripada Worker. Jika berjaya, ia menggantikan
+        window.SITE_DATA supaya perubahan yang baru disimpan kelihatan
+        serta-merta. Jika gagal (Worker tutup / disekat rangkaian), laman
+        terus guna data.js di atas tanpa sebarang ralat. -->
+<script>
+(function () {
+  try {
+    var t = window.SITE_DATA && window.SITE_DATA.tetapan;
+    var u = t && t.apiUrl;
+    if (u) document.write('<script src="' + String(u).replace(/\/+$/, '') +
+      '/kandungan.js?v=' + Date.now() + '"><\/script>');
+  } catch (e) { /* kekal guna data.js */ }
+})();
+</script>
 <style>
 /* ============================================================
    TOKEN SYSTEM

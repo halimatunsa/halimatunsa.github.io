@@ -13,3 +13,10 @@ CREATE TABLE IF NOT EXISTS murid (
 );
 CREATE INDEX IF NOT EXISTS idx_murid_nama ON murid(nama_norm);
 CREATE INDEX IF NOT EXISTS idx_murid_ic ON murid(ic_norm);
+
+-- Salinan kandungan laman terkini (untuk paparan serta-merta)
+CREATE TABLE IF NOT EXISTS kandungan (
+  id      INTEGER PRIMARY KEY,
+  json    TEXT NOT NULL,
+  dikemas TEXT NOT NULL
+);

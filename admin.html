@@ -10,9 +10,19 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
-<!-- data.js dimuat dengan penanda masa seminit supaya panel sentiasa
-     membaca kandungan terkini, bukan salinan cache. -->
+<!-- Sama seperti index.html: data.js dahulu (sandaran), kemudian salinan
+     terkini daripada Worker supaya panel sentiasa sepadan dengan laman. -->
 <script>document.write('<script src="data.js?v=' + Math.floor(Date.now() / 60000) + '"><\/script>');</script>
+<script>
+(function () {
+  try {
+    var t = window.SITE_DATA && window.SITE_DATA.tetapan;
+    var u = t && t.apiUrl;
+    if (u) document.write('<script src="' + String(u).replace(/\/+$/, '') +
+      '/kandungan.js?v=' + Date.now() + '"><\/script>');
+  } catch (e) { /* kekal guna data.js */ }
+})();
+</script>
 <style>
 :root{
   --bg:#F5F7FA;--surface:#FFFFFF;--ink:#16222F;--muted:#57697C;
