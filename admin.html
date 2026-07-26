@@ -10,7 +10,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
-<script src="data.js"></script>
+<!-- data.js dimuat dengan penanda masa seminit supaya panel sentiasa
+     membaca kandungan terkini, bukan salinan cache. -->
+<script>document.write('<script src="data.js?v=' + Math.floor(Date.now() / 60000) + '"><\/script>');</script>
 <style>
 :root{
   --bg:#F5F7FA;--surface:#FFFFFF;--ink:#16222F;--muted:#57697C;
@@ -1043,7 +1045,7 @@ btnSimpan.addEventListener("click", async () => {
       setStatus(`<b>Disimpan!</b> Laman telah dikemas kini terus. Muat semula laman untuk melihat perubahan.`, true);
     } else {
       const mesejRalat = ((j && j.mesej) || "Gagal menyimpan ke pelayan").replace(/[.\s]+$/, "");
-      setStatus(`${mesejRalat}. Anda masih boleh guna <b>Muat Turun data.js</b>.`, true);
+      setStatus(`${mesejRalat}. Sandaran boleh dimuat turun dari tab <b>Tetapan</b>.`, true);
     }
   } catch (err) {
     setStatus(`API tidak dapat dihubungi. Guna <b>Muat Turun data.js</b>, atau semak URL API di tab Tetapan.`, true);
